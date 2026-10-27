@@ -1,0 +1,774 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Company Profile & Unit Calculator - Equinest</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Design System Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandRed: '#FF2D2D',
+            brandRedDark: '#E02020',
+            darkBg: '#000000',
+            darkCard: '#111111',
+            darkCardHover: '#161616',
+            darkInput: '#1E1E1E',
+            subtleBorder: '#333333'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body data-page="marketplace" class="bg-black text-white selection:bg-[#FF2D2D] selection:text-white">
+
+  <!-- Sticky Global Navigation Bar -->
+  <div id="equinest-navbar"></div>
+
+  <!-- Breadcrumbs & Top Meta -->
+  <div class="border-b border-[#1c1c1c] bg-[#080808] py-4">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between text-xs">
+      <div class="flex items-center space-x-2 text-[#777777]">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <span>/</span>
+        <a href="marketplace.html" class="hover:text-white">Marketplace</a>
+        <span>/</span>
+        <span id="breadcrumb-company-name" class="text-white font-medium">Company Profile</span>
+      </div>
+      <div class="flex items-center space-x-2 text-[#A0A0A0]">
+        <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+        <span>Active Deal Room</span>
+        <span class="text-[#444444]">|</span>
+        <span class="text-[#FF2D2D] font-mono">PAN & OCR Verified</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Hero Header -->
+  <section class="relative bg-gradient-to-b from-[#120808] via-[#090909] to-black border-b border-[#222222] pt-8 pb-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Company Cover Banner -->
+      <div class="relative h-64 md:h-80 rounded-2xl overflow-hidden border border-[#2a2a2a] mb-6">
+        <img id="detail-cover-img" src="" alt="Cover" class="w-full h-full object-cover" />
+        <div class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent"></div>
+        
+        <div class="absolute top-4 left-4 flex flex-wrap gap-2">
+          <span id="detail-sector-badge" class="px-3 py-1 rounded-full text-xs font-bold uppercase tracking-wider bg-black/80 text-white backdrop-blur-md border border-[#444444]">
+            Sector
+          </span>
+          <span id="detail-stage-badge" class="px-3 py-1 rounded-full text-xs font-semibold bg-emerald-950/80 text-emerald-300 border border-emerald-800/50">
+            Stage
+          </span>
+        </div>
+
+        <div class="absolute bottom-5 left-5 right-5 flex flex-col md:flex-row md:items-end justify-between gap-4">
+          <div class="flex items-center space-x-4">
+            <img id="detail-logo-img" src="" alt="Logo" class="w-16 h-16 md:w-20 md:h-20 rounded-2xl object-cover border-2 border-white/20 shadow-2xl bg-black" />
+            <div>
+              <div class="flex items-center space-x-2">
+                <h1 id="detail-name" class="text-2xl md:text-3xl font-extrabold text-white">Startup Name</h1>
+                <span class="text-xs px-2 py-0.5 rounded bg-emerald-500/20 text-emerald-400 border border-emerald-500/30 font-medium">✓ Verified</span>
+              </div>
+              <p id="detail-tagline" class="text-xs md:text-sm text-[#CCCCCC] mt-1 max-w-xl">Tagline here</p>
+            </div>
+          </div>
+
+          <div class="flex items-center space-x-2 text-xs">
+            <a id="detail-website-link" href="#" target="_blank" class="px-3 py-1.5 rounded-lg bg-black/70 hover:bg-black text-white border border-[#444444] transition-colors">
+              🌐 Website
+            </a>
+            <a id="detail-linkedin-link" href="#" target="_blank" class="px-3 py-1.5 rounded-lg bg-black/70 hover:bg-black text-white border border-[#444444] transition-colors">
+              💼 LinkedIn
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Quick Metrics Ribbon -->
+      <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+        <div class="p-3.5 rounded-xl bg-[#111111] border border-[#222222]">
+          <div class="text-[10px] text-[#777777] uppercase font-bold">Target Ask</div>
+          <div id="metric-target-ask" class="text-base font-extrabold text-white font-mono mt-0.5">NPR 0</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-[#111111] border border-[#222222]">
+          <div class="text-[10px] text-[#777777] uppercase font-bold">Unit Price</div>
+          <div id="metric-unit-price" class="text-base font-extrabold text-[#FF2D2D] font-mono mt-0.5">NPR 0</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-[#111111] border border-[#222222]">
+          <div class="text-[10px] text-[#777777] uppercase font-bold">Remaining Units</div>
+          <div id="metric-remaining-units" class="text-base font-extrabold text-white font-mono mt-0.5">0</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-[#111111] border border-[#222222]">
+          <div class="text-[10px] text-[#777777] uppercase font-bold">Pre-Money Valuation</div>
+          <div id="metric-valuation" class="text-base font-extrabold text-white font-mono mt-0.5">NPR 0</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-[#111111] border border-[#222222]">
+          <div class="text-[10px] text-[#777777] uppercase font-bold">Equity Offered</div>
+          <div id="metric-equity-pct" class="text-base font-extrabold text-emerald-400 font-mono mt-0.5">0%</div>
+        </div>
+        <div class="p-3.5 rounded-xl bg-[#111111] border border-[#222222]">
+          <div class="text-[10px] text-[#777777] uppercase font-bold">Min Investment</div>
+          <div id="metric-min-ask" class="text-base font-extrabold text-white font-mono mt-0.5">NPR 0</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main Content Layout (Left: Detailed Info, Right: Interactive Unit Calculator) -->
+  <main class="py-12 bg-black">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        
+        <!-- Left Column: Details, Pitch, Financials, Cap Table (8 cols) -->
+        <div class="lg:col-span-7 xl:col-span-8 space-y-10">
+          
+          <!-- Section 1: About & Pitch Deck Summary -->
+          <div class="card-dark rounded-2xl p-6 md:p-8 border border-[#222222]">
+            <h2 class="text-lg font-bold text-white mb-4 flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-[#FF2D2D]"></span>
+              <span>About & Executive Summary</span>
+            </h2>
+            <p id="detail-pitch-summary" class="text-sm text-[#B0B0B0] leading-relaxed mb-6">
+              Summary paragraph...
+            </p>
+
+            <!-- Video Pitch Embed Placeholder -->
+            <div class="relative rounded-xl overflow-hidden bg-[#0c0c0c] border border-[#2a2a2a] aspect-video flex items-center justify-center">
+              <img src="https://images.unsplash.com/photo-1516321318423-f06f85e504b3?w=1000&auto=format&fit=crop&q=80" class="w-full h-full object-cover opacity-50" />
+              <div class="absolute inset-0 flex flex-col items-center justify-center bg-black/40">
+                <div class="w-16 h-16 rounded-full bg-[#FF2D2D]/90 hover:bg-[#FF2D2D] text-white flex items-center justify-center cursor-pointer transition-transform hover:scale-110 shadow-2xl">
+                  <svg class="w-6 h-6 ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"></path></svg>
+                </div>
+                <span class="text-xs text-white font-semibold mt-3 bg-black/60 px-3 py-1 rounded-full border border-white/10">
+                  Watch Founder Video Pitch (3:45 mins)
+                </span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Section 2: 3-Year Audited Financials Table -->
+          <div class="card-dark rounded-2xl p-6 md:p-8 border border-[#222222]">
+            <div class="flex items-center justify-between mb-4">
+              <h2 class="text-lg font-bold text-white flex items-center space-x-2">
+                <span class="w-2.5 h-2.5 rounded-full bg-emerald-400"></span>
+                <span>3-Year Historical Financials (Audited)</span>
+              </h2>
+              <span class="text-[11px] text-[#777777] font-mono">Currency: NPR (रू)</span>
+            </div>
+
+            <p class="text-xs text-[#888888] mb-4">
+              Financial statements verified by registered Chartered Accountants under ICAN standards.
+            </p>
+
+            <div class="overflow-x-auto rounded-xl border border-[#222222]">
+              <table class="w-full text-xs text-left">
+                <thead class="bg-[#181818] text-[#888888] uppercase font-bold border-b border-[#252525]">
+                  <tr>
+                    <th class="px-4 py-3">Financial Metric</th>
+                    <th id="fin-header-yr1" class="px-4 py-3">FY 2078/79</th>
+                    <th id="fin-header-yr2" class="px-4 py-3">FY 2079/80</th>
+                    <th id="fin-header-yr3" class="px-4 py-3 text-white">FY 2080/81</th>
+                  </tr>
+                </thead>
+                <tbody id="detail-financials-tbody" class="divide-y divide-[#202020] font-mono">
+                  <!-- Rendered dynamically -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+
+          <!-- Section 3: Use of Funds Breakdown -->
+          <div class="card-dark rounded-2xl p-6 md:p-8 border border-[#222222]">
+            <h2 class="text-lg font-bold text-white mb-4 flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-blue-400"></span>
+              <span>Allocation & Use of Funds</span>
+            </h2>
+            <div id="detail-use-of-funds" class="space-y-4">
+              <!-- Rendered dynamically -->
+            </div>
+          </div>
+
+          <!-- Section 4: Founder Background & Governance -->
+          <div class="card-dark rounded-2xl p-6 md:p-8 border border-[#222222]">
+            <h2 class="text-lg font-bold text-white mb-6 flex items-center space-x-2">
+              <span class="w-2.5 h-2.5 rounded-full bg-amber-400"></span>
+              <span>Founder & Core Leadership</span>
+            </h2>
+
+            <div class="flex flex-col sm:flex-row items-start sm:items-center space-y-4 sm:space-y-0 sm:space-x-5 p-4 rounded-xl bg-[#161616] border border-[#252525]">
+              <img id="detail-founder-avatar" src="" alt="Founder" class="w-16 h-16 rounded-xl object-cover border border-[#333333]" />
+              <div class="flex-1">
+                <div class="flex items-center justify-between">
+                  <h3 id="detail-founder-name" class="font-bold text-white text-base">Founder Name</h3>
+                  <span class="text-xs px-2 py-0.5 rounded bg-emerald-950 text-emerald-400 border border-emerald-800">
+                    ID Verified
+                  </span>
+                </div>
+                <div id="detail-founder-role" class="text-xs text-[#FF2D2D] font-semibold">CEO & Co-founder</div>
+                <p id="detail-founder-bio" class="text-xs text-[#888888] mt-2 leading-relaxed">
+                  Bio description...
+                </p>
+              </div>
+            </div>
+
+            <!-- Shielded Private Verification Notice -->
+            <div class="mt-4 p-3.5 rounded-xl bg-[#141414] border border-[#262626] flex items-center space-x-3 text-xs text-[#777777]">
+              <div class="w-8 h-8 rounded-lg bg-[#1e1e1e] flex items-center justify-center text-emerald-400 flex-shrink-0">
+                🔒
+              </div>
+              <div>
+                <div class="text-[#A0A0A0] font-medium">Compliance & Identity Escrow:</div>
+                <div class="text-[11px]">Government Citizenship No., PAN, and registered bank accounts have been verified by Equinest Compliance. Sensitive personal identifiers are kept strictly confidential.</div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Right Column: Interactive Unit Calculator & Sticky Checkout (4-5 cols) -->
+        <div class="lg:col-span-5 xl:col-span-4">
+          <div id="investment-calculator-card" class="sticky top-24 card-dark rounded-2xl p-6 border border-[#2c2c2c] shadow-2xl">
+            
+            <div class="flex items-center justify-between pb-4 border-b border-[#222222] mb-5">
+              <div>
+                <span class="text-[10px] font-bold uppercase tracking-wider text-[#FF2D2D]">Interactive Engine</span>
+                <h3 class="text-lg font-extrabold text-white">Unit Calculator</h3>
+              </div>
+              <span class="text-xs px-2.5 py-1 rounded bg-[#1e1e1e] text-white border border-[#333333] font-mono">
+                Page 1 Engine
+              </span>
+            </div>
+
+            <!-- Unit Input Stepper & Slider -->
+            <div class="space-y-4 mb-6">
+              <div>
+                <div class="flex justify-between text-xs mb-1.5">
+                  <label class="font-semibold text-[#A0A0A0]">Number of Units to Purchase</label>
+                  <span id="calc-units-display" class="font-mono font-bold text-white text-sm">10 units</span>
+                </div>
+
+                <div class="flex items-center space-x-2">
+                  <button 
+                    onclick="adjustUnits(-5)" 
+                    class="w-10 h-10 rounded-lg bg-[#1e1e1e] hover:bg-[#282828] text-white font-bold text-lg border border-[#333333] transition-colors"
+                  >-</button>
+
+                  <input 
+                    type="number" 
+                    id="calc-units-input" 
+                    min="1" 
+                    value="10" 
+                    class="flex-1 py-2 px-3 text-center text-base font-bold font-mono input-dark"
+                    oninput="handleUnitsChange(this.value)"
+                  />
+
+                  <button 
+                    onclick="adjustUnits(5)" 
+                    class="w-10 h-10 rounded-lg bg-[#1e1e1e] hover:bg-[#282828] text-white font-bold text-lg border border-[#333333] transition-colors"
+                  >+</button>
+                </div>
+
+                <!-- Slider -->
+                <input 
+                  type="range" 
+                  id="calc-units-slider" 
+                  min="1" 
+                  max="500" 
+                  value="10" 
+                  class="w-full mt-3 accent-[#FF2D2D] cursor-pointer"
+                  oninput="handleSliderChange(this.value)"
+                />
+                
+                <div class="flex justify-between text-[10px] text-[#666666] font-mono mt-1">
+                  <span>Min: 1 unit</span>
+                  <span id="slider-max-label">Max: Available</span>
+                </div>
+              </div>
+
+              <!-- Quick presets buttons -->
+              <div class="grid grid-cols-4 gap-1.5 text-xs font-mono">
+                <button onclick="setUnitsPreset(5)" class="py-1 rounded bg-[#181818] hover:bg-[#242424] text-[#A0A0A0] hover:text-white border border-[#2b2b2b]">5u</button>
+                <button onclick="setUnitsPreset(25)" class="py-1 rounded bg-[#181818] hover:bg-[#242424] text-[#A0A0A0] hover:text-white border border-[#2b2b2b]">25u</button>
+                <button onclick="setUnitsPreset(50)" class="py-1 rounded bg-[#181818] hover:bg-[#242424] text-[#A0A0A0] hover:text-white border border-[#2b2b2b]">50u</button>
+                <button onclick="setUnitsPreset(100)" class="py-1 rounded bg-[#181818] hover:bg-[#242424] text-[#A0A0A0] hover:text-white border border-[#2b2b2b]">100u</button>
+              </div>
+            </div>
+
+            <!-- Live Calculation Breakdown Matrix -->
+            <div class="p-4 rounded-xl bg-[#161616] border border-[#252525] space-y-2.5 text-xs mb-6 font-mono">
+              <div class="flex items-center justify-between text-[#888888]">
+                <span>Unit Price:</span>
+                <span id="calc-unit-price-line" class="text-white font-bold">NPR 0</span>
+              </div>
+              <div class="flex items-center justify-between text-[#888888]">
+                <span>Quantity Selected:</span>
+                <span id="calc-qty-line" class="text-white">10 units</span>
+              </div>
+              <div class="flex items-center justify-between text-[#888888]">
+                <span>Equity Percentage Acquired:</span>
+                <span id="calc-equity-pct-line" class="text-emerald-400 font-bold">0.0375%</span>
+              </div>
+              <div class="flex items-center justify-between text-[#888888]">
+                <span>Platform Escrow Protection:</span>
+                <span class="text-emerald-400">0% Waived (Demo)</span>
+              </div>
+              <div class="pt-3 border-t border-[#262626] flex items-center justify-between text-sm">
+                <span class="font-sans text-white font-bold">Total Investment:</span>
+                <span id="calc-total-amount" class="text-lg font-bold text-[#FF2D2D]">NPR 0</span>
+              </div>
+            </div>
+
+            <!-- Projected Returns Scenario -->
+            <div class="p-3 rounded-lg bg-[#141414] border border-[#222222] text-[11px] text-[#888888] space-y-1 mb-6">
+              <div class="text-white font-semibold">📈 Projected Scenario (3-Yr Horizon):</div>
+              <div class="flex justify-between">
+                <span>At 2.5x Valuation Target:</span>
+                <span id="proj-return-val" class="font-mono text-emerald-400 font-bold">NPR 0</span>
+              </div>
+            </div>
+
+            <!-- Primary Action: 'Confirm Investment' Button -->
+            <button 
+              id="confirm-investment-btn"
+              onclick="openConfirmInvestmentModal()" 
+              class="w-full py-3.5 rounded-xl btn-red text-sm font-bold shadow-xl shadow-red-950/60 flex items-center justify-center space-x-2"
+            >
+              <span>Confirm Investment</span>
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+            </button>
+
+            <div class="mt-3 text-center text-[10px] text-[#666666]">
+              Simulated instant settlement via eSewa / Khalti / ConnectIPS
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </main>
+
+  <!-- Investment Checkout & Verification Modal -->
+  <div id="checkout-modal" class="hidden fixed inset-0 z-[120] flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-[#141414] border border-[#333333] rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+      <button onclick="closeCheckoutModal()" class="absolute top-4 right-4 text-[#777777] hover:text-white text-lg">✕</button>
+
+      <div class="flex items-center space-x-3 mb-4">
+        <div class="w-10 h-10 rounded-xl bg-red-950/60 border border-red-800/40 text-[#FF2D2D] flex items-center justify-center font-bold text-lg">
+          रू
+        </div>
+        <div>
+          <h3 class="text-lg font-bold text-white">Confirm Investment Order</h3>
+          <div class="text-xs text-[#888888]">Escrow simulation under Nepal venture guidelines</div>
+        </div>
+      </div>
+
+      <!-- Order Summary Card -->
+      <div class="p-4 rounded-xl bg-[#1a1a1a] border border-[#2b2b2b] text-xs space-y-2 mb-5 font-mono">
+        <div class="flex justify-between">
+          <span class="text-[#888888]">Startup:</span>
+          <span id="modal-summary-startup" class="text-white font-bold font-sans">Name</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-[#888888]">Units & Price:</span>
+          <span id="modal-summary-units" class="text-white">10 units @ NPR 1,500</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-[#888888]">Equity Transferred:</span>
+          <span id="modal-summary-equity" class="text-emerald-400 font-bold">0.0375%</span>
+        </div>
+        <div class="pt-2 border-t border-[#282828] flex justify-between text-sm">
+          <span class="text-white font-sans font-bold">Total Payment:</span>
+          <span id="modal-summary-total" class="text-[#FF2D2D] font-bold">NPR 15,000</span>
+        </div>
+      </div>
+
+      <!-- Investor Details & Payment Gateway selector -->
+      <form id="checkout-form" onsubmit="executeInvestmentOrder(event)" class="space-y-4">
+        <div>
+          <label class="block text-[11px] font-semibold text-[#888888] uppercase mb-1">Investor Legal Name</label>
+          <input type="text" id="order-investor-name" required class="w-full px-3 py-2 text-xs input-dark" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-[#888888] uppercase mb-1">Investor Contact Email (for Share Certificate)</label>
+          <input type="email" id="order-investor-email" required class="w-full px-3 py-2 text-xs input-dark" />
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-semibold text-[#888888] uppercase mb-2">Simulated Payment Method</label>
+          <div class="grid grid-cols-3 gap-2 text-xs">
+            <label class="p-2.5 rounded-lg bg-[#1e1e1e] border border-[#333333] hover:border-[#FF2D2D] flex flex-col items-center cursor-pointer">
+              <input type="radio" name="payment_method" value="esewa" checked class="accent-[#FF2D2D] mb-1" />
+              <span class="font-bold text-emerald-400">eSewa</span>
+              <span class="text-[9px] text-[#777777]">Digital Wallet</span>
+            </label>
+            <label class="p-2.5 rounded-lg bg-[#1e1e1e] border border-[#333333] hover:border-[#FF2D2D] flex flex-col items-center cursor-pointer">
+              <input type="radio" name="payment_method" value="khalti" class="accent-[#FF2D2D] mb-1" />
+              <span class="font-bold text-purple-400">Khalti</span>
+              <span class="text-[9px] text-[#777777]">Instant Pay</span>
+            </label>
+            <label class="p-2.5 rounded-lg bg-[#1e1e1e] border border-[#333333] hover:border-[#FF2D2D] flex flex-col items-center cursor-pointer">
+              <input type="radio" name="payment_method" value="connectips" class="accent-[#FF2D2D] mb-1" />
+              <span class="font-bold text-blue-400">ConnectIPS</span>
+              <span class="text-[9px] text-[#777777]">Bank Transfer</span>
+            </label>
+          </div>
+        </div>
+
+        <div class="flex items-start space-x-2 pt-1 text-[11px] text-[#888888]">
+          <input type="checkbox" id="order-terms-agree" required checked class="mt-0.5 accent-[#FF2D2D]" />
+          <label for="order-terms-agree">
+            I certify that I have reviewed the 3-year financials and acknowledge that equity investments involve commercial risks.
+          </label>
+        </div>
+
+        <button type="submit" class="w-full py-3 rounded-xl btn-red text-xs font-bold shadow-lg shadow-red-950/50">
+          Approve & Complete Investment Order 🚀
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Investment Success & Share Certificate Simulation Modal -->
+  <div id="order-success-modal" class="hidden fixed inset-0 z-[130] flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-[#121212] border border-emerald-500/40 rounded-2xl max-w-lg w-full p-6 text-center shadow-2xl relative">
+      
+      <!-- Certificate Badge -->
+      <div class="w-14 h-14 rounded-full bg-emerald-950/80 border border-emerald-600/50 text-emerald-400 flex items-center justify-center mx-auto mb-3">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path></svg>
+      </div>
+
+      <h3 class="text-xl font-extrabold text-white mb-1">Investment Confirmed! 🎉</h3>
+      <p class="text-xs text-[#A0A0A0] mb-4">
+        Your share allotment was secured and an automated purchase alert was sent to the founder's inbox.
+      </p>
+
+      <!-- Simulated Certificate Box -->
+      <div class="p-5 rounded-xl bg-[#181818] border border-[#2d2d2d] text-left text-xs mb-5 font-mono space-y-2 relative overflow-hidden">
+        <div class="flex justify-between items-center pb-2 border-b border-[#252525]">
+          <span class="font-bold text-white text-[11px]">EQUINEST SHARE CERTIFICATE (SIMULATION)</span>
+          <span id="success-tx-id" class="text-[#FF2D2D] font-bold">EQ-NPR-XXXXXX</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-[#888888]">Issuer:</span>
+          <span id="success-issuer" class="text-white font-sans font-semibold">Hamro Krishi AI Pvt. Ltd.</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-[#888888]">Shareholder:</span>
+          <span id="success-shareholder" class="text-white">Aayush Adhikari</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-[#888888]">Units Acquired:</span>
+          <span id="success-units" class="text-white font-bold">50 Units</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-[#888888]">Equity Stake:</span>
+          <span id="success-equity" class="text-emerald-400 font-bold">0.1875%</span>
+        </div>
+        <div class="flex justify-between">
+          <span class="text-[#888888]">Total NPR Paid:</span>
+          <span id="success-amount" class="text-white font-bold">NPR 75,000</span>
+        </div>
+        <div class="pt-2 border-t border-[#252525] flex justify-between text-[10px] text-[#666666]">
+          <span>Status: Verified & Placed in Escrow</span>
+          <span>Date: Today</span>
+        </div>
+      </div>
+
+      <div class="space-y-2">
+        <a href="inbox.html" class="w-full py-2.5 rounded-lg btn-red text-xs font-bold block text-center">
+          Open Inbox Portal to Inspect Notifications →
+        </a>
+        <button onclick="closeSuccessOrderModal()" class="w-full py-2 text-xs font-semibold btn-secondary rounded-lg">
+          Back to Listing
+        </button>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    let currentStartup = null;
+    let selectedUnits = 10;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderEquinestNavbar("marketplace");
+
+      // Extract startup ID from query params or default to first
+      const params = new URLSearchParams(window.location.search);
+      const targetId = params.get("id") || "startup-1";
+      currentStartup = EquinestState.getStartupById(targetId) || EquinestState.getStartups()[0];
+
+      if (!currentStartup) {
+        window.location.href = "marketplace.html";
+        return;
+      }
+
+      loadStartupDetails(currentStartup);
+
+      // Auto-trigger invest modal or highlight calculator if param present
+      if (params.get("action") === "invest") {
+        const calcCard = document.getElementById("investment-calculator-card");
+        if (calcCard) {
+          calcCard.scrollIntoView({ behavior: "smooth" });
+          calcCard.classList.add("ring-2", "ring-[#FF2D2D]");
+          setTimeout(() => calcCard.classList.remove("ring-2", "ring-[#FF2D2D]"), 2000);
+        }
+      }
+
+      window.addEventListener("equinest:startups_changed", () => {
+        const refreshed = EquinestState.getStartupById(currentStartup.id);
+        if (refreshed) {
+          currentStartup = refreshed;
+          loadStartupDetails(currentStartup);
+        }
+      });
+    });
+
+    function loadStartupDetails(s) {
+      document.title = `${s.name} - Equinest Equity Details`;
+      document.getElementById("breadcrumb-company-name").textContent = s.name;
+      document.getElementById("detail-cover-img").src = s.coverImage;
+      document.getElementById("detail-logo-img").src = s.logo;
+      document.getElementById("detail-name").textContent = s.name;
+      document.getElementById("detail-tagline").textContent = s.tagline;
+      document.getElementById("detail-sector-badge").textContent = s.sector;
+      document.getElementById("detail-stage-badge").textContent = s.stage;
+
+      // Links
+      if (s.socials) {
+        document.getElementById("detail-website-link").href = s.socials.website || "#";
+        document.getElementById("detail-linkedin-link").href = s.socials.linkedin || "#";
+      }
+
+      // Ribbon Metrics
+      document.getElementById("metric-target-ask").textContent = EquinestFormat.npr(s.targetAsk);
+      document.getElementById("metric-unit-price").textContent = EquinestFormat.npr(s.unitPrice);
+      document.getElementById("metric-remaining-units").textContent = `${s.remainingUnits.toLocaleString()} / ${s.totalUnits.toLocaleString()}`;
+      document.getElementById("metric-valuation").textContent = EquinestFormat.shortNPR(s.valuation);
+      document.getElementById("metric-equity-pct").textContent = `${s.equityOffered}%`;
+      document.getElementById("metric-min-ask").textContent = EquinestFormat.npr(s.minAsk);
+
+      // Summary
+      document.getElementById("detail-pitch-summary").textContent = s.pitchDeckSummary;
+
+      // Founder
+      if (s.founder) {
+        document.getElementById("detail-founder-name").textContent = s.founder.name;
+        document.getElementById("detail-founder-role").textContent = s.founder.role;
+        document.getElementById("detail-founder-bio").textContent = s.founder.bio;
+        document.getElementById("detail-founder-avatar").src = s.founder.avatar;
+      }
+
+      // 3-Year Financials Table
+      renderFinancialsTable(s.financials);
+
+      // Use of funds
+      renderUseOfFunds(s.useOfFunds);
+
+      // Setup Calculator Bounds
+      const slider = document.getElementById("calc-units-slider");
+      slider.max = Math.min(500, s.remainingUnits);
+      document.getElementById("slider-max-label").textContent = `Max: ${s.remainingUnits} units`;
+
+      if (selectedUnits > s.remainingUnits) selectedUnits = s.remainingUnits;
+      document.getElementById("calc-units-input").value = selectedUnits;
+      slider.value = selectedUnits;
+
+      updateCalculatorCalculations();
+    }
+
+    function renderFinancialsTable(financials) {
+      const tbody = document.getElementById("detail-financials-tbody");
+      if (!financials || !financials.records || financials.records.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="4" class="px-4 py-4 text-center text-[#777777]">Financial records available upon investor NDA request.</td></tr>`;
+        return;
+      }
+
+      const recs = financials.records;
+      const yr1 = recs[0] || { year: "N/A", revenue: 0, ebitda: 0, netProfit: 0, grossMargin: "N/A" };
+      const yr2 = recs[1] || { year: "N/A", revenue: 0, ebitda: 0, netProfit: 0, grossMargin: "N/A" };
+      const yr3 = recs[2] || yr2;
+
+      document.getElementById("fin-header-yr1").textContent = yr1.year;
+      document.getElementById("fin-header-yr2").textContent = yr2.year;
+      document.getElementById("fin-header-yr3").textContent = yr3.year;
+
+      tbody.innerHTML = `
+        <tr class="hover:bg-[#161616]">
+          <td class="px-4 py-3 font-sans text-white font-medium">Total Revenue</td>
+          <td class="px-4 py-3">${EquinestFormat.npr(yr1.revenue)}</td>
+          <td class="px-4 py-3">${EquinestFormat.npr(yr2.revenue)}</td>
+          <td class="px-4 py-3 text-white font-bold">${EquinestFormat.npr(yr3.revenue)}</td>
+        </tr>
+        <tr class="hover:bg-[#161616]">
+          <td class="px-4 py-3 font-sans text-white font-medium">Gross Margin</td>
+          <td class="px-4 py-3">${yr1.grossMargin || "35%"}</td>
+          <td class="px-4 py-3">${yr2.grossMargin || "40%"}</td>
+          <td class="px-4 py-3 text-emerald-400 font-bold">${yr3.grossMargin || "45%"}</td>
+        </tr>
+        <tr class="hover:bg-[#161616]">
+          <td class="px-4 py-3 font-sans text-white font-medium">EBITDA</td>
+          <td class="px-4 py-3 ${yr1.ebitda < 0 ? 'text-red-400' : 'text-emerald-400'}">${EquinestFormat.npr(yr1.ebitda)}</td>
+          <td class="px-4 py-3 ${yr2.ebitda < 0 ? 'text-red-400' : 'text-emerald-400'}">${EquinestFormat.npr(yr2.ebitda)}</td>
+          <td class="px-4 py-3 font-bold ${yr3.ebitda < 0 ? 'text-red-400' : 'text-emerald-400'}">${EquinestFormat.npr(yr3.ebitda)}</td>
+        </tr>
+        <tr class="hover:bg-[#161616]">
+          <td class="px-4 py-3 font-sans text-white font-medium">Net Profit / (Loss)</td>
+          <td class="px-4 py-3 ${yr1.netProfit < 0 ? 'text-red-400' : 'text-emerald-400'}">${EquinestFormat.npr(yr1.netProfit)}</td>
+          <td class="px-4 py-3 ${yr2.netProfit < 0 ? 'text-red-400' : 'text-emerald-400'}">${EquinestFormat.npr(yr2.netProfit)}</td>
+          <td class="px-4 py-3 font-bold ${yr3.netProfit < 0 ? 'text-red-400' : 'text-emerald-400'}">${EquinestFormat.npr(yr3.netProfit)}</td>
+        </tr>
+      `;
+    }
+
+    function renderUseOfFunds(funds) {
+      const container = document.getElementById("detail-use-of-funds");
+      if (!funds || funds.length === 0) {
+        container.innerHTML = `<div class="text-xs text-[#777777]">Allocation breakdown provided in data room.</div>`;
+        return;
+      }
+
+      container.innerHTML = funds.map(f => `
+        <div>
+          <div class="flex justify-between text-xs mb-1">
+            <span class="text-[#D0D0D0] font-medium">${f.category}</span>
+            <span class="text-white font-bold font-mono">${f.percentage}%</span>
+          </div>
+          <div class="w-full h-1.5 bg-[#222222] rounded-full overflow-hidden">
+            <div class="h-full bg-[#FF2D2D] rounded-full" style="width: ${f.percentage}%"></div>
+          </div>
+        </div>
+      `).join("");
+    }
+
+    // Calculator Logic
+    function handleUnitsChange(val) {
+      let num = parseInt(val, 10);
+      if (isNaN(num) || num < 1) num = 1;
+      if (num > currentStartup.remainingUnits) num = currentStartup.remainingUnits;
+      selectedUnits = num;
+      document.getElementById("calc-units-slider").value = num;
+      updateCalculatorCalculations();
+    }
+
+    function handleSliderChange(val) {
+      selectedUnits = parseInt(val, 10);
+      document.getElementById("calc-units-input").value = selectedUnits;
+      updateCalculatorCalculations();
+    }
+
+    function adjustUnits(delta) {
+      let num = selectedUnits + delta;
+      if (num < 1) num = 1;
+      if (num > currentStartup.remainingUnits) num = currentStartup.remainingUnits;
+      selectedUnits = num;
+      document.getElementById("calc-units-input").value = selectedUnits;
+      document.getElementById("calc-units-slider").value = selectedUnits;
+      updateCalculatorCalculations();
+    }
+
+    function setUnitsPreset(preset) {
+      if (preset > currentStartup.remainingUnits) preset = currentStartup.remainingUnits;
+      selectedUnits = preset;
+      document.getElementById("calc-units-input").value = selectedUnits;
+      document.getElementById("calc-units-slider").value = selectedUnits;
+      updateCalculatorCalculations();
+    }
+
+    function updateCalculatorCalculations() {
+      const subtotal = selectedUnits * currentStartup.unitPrice;
+      const equityAcquired = ((selectedUnits / currentStartup.totalUnits) * currentStartup.equityOffered).toFixed(4);
+      const projectedReturn = Math.round(subtotal * 2.5);
+
+      document.getElementById("calc-units-display").textContent = `${selectedUnits} units`;
+      document.getElementById("calc-unit-price-line").textContent = EquinestFormat.npr(currentStartup.unitPrice);
+      document.getElementById("calc-qty-line").textContent = `${selectedUnits} units`;
+      document.getElementById("calc-equity-pct-line").textContent = `${equityAcquired}% of total company`;
+      document.getElementById("calc-total-amount").textContent = EquinestFormat.npr(subtotal);
+      document.getElementById("proj-return-val").textContent = EquinestFormat.npr(projectedReturn);
+    }
+
+    // Modal Checkout Logic (Requires Auth)
+    function openConfirmInvestmentModal() {
+      if (!EquinestState.isAuthenticated()) {
+        EquinestAuth.requireAuth(
+          () => { openConfirmInvestmentModal(); },
+          "Please log in or sign up with an Investor profile to confirm this investment order.",
+          `company-detail.html?id=${currentStartup.id}&action=invest`
+        );
+        return;
+      }
+
+      const currentUser = EquinestState.getCurrentUser();
+      const subtotal = selectedUnits * currentStartup.unitPrice;
+      const equityAcquired = ((selectedUnits / currentStartup.totalUnits) * currentStartup.equityOffered).toFixed(4);
+
+      document.getElementById("modal-summary-startup").textContent = currentStartup.name;
+      document.getElementById("modal-summary-units").textContent = `${selectedUnits} units @ ${EquinestFormat.npr(currentStartup.unitPrice)}`;
+      document.getElementById("modal-summary-equity").textContent = `${equityAcquired}% equity stake`;
+      document.getElementById("modal-summary-total").textContent = EquinestFormat.npr(subtotal);
+
+      document.getElementById("order-investor-name").value = currentUser.displayName || "";
+      document.getElementById("order-investor-email").value = currentUser.email || "";
+
+      document.getElementById("checkout-modal").classList.remove("hidden");
+    }
+
+    function closeCheckoutModal() {
+      document.getElementById("checkout-modal").classList.add("hidden");
+    }
+
+    function executeInvestmentOrder(e) {
+      e.preventDefault();
+      const investorName = document.getElementById("order-investor-name").value;
+      const investorEmail = document.getElementById("order-investor-email").value;
+      const currentUser = EquinestState.getCurrentUser();
+
+      try {
+        // Execute state transaction with dynamically bound user identity
+        const record = EquinestState.investInStartup(currentStartup.id, selectedUnits, {
+          name: investorName,
+          email: investorEmail,
+          phone: currentUser.phone || "+977 9801223399"
+        });
+
+        closeCheckoutModal();
+
+        // Populate and open success certificate modal
+        document.getElementById("success-tx-id").textContent = record.txId;
+        document.getElementById("success-issuer").textContent = `${currentStartup.name} (${currentStartup.legalEntity})`;
+        document.getElementById("success-shareholder").textContent = record.investorName;
+        document.getElementById("success-units").textContent = `${record.units} Units`;
+        document.getElementById("success-equity").textContent = `${record.equityPct}%`;
+        document.getElementById("success-amount").textContent = EquinestFormat.npr(record.totalAmount);
+
+        document.getElementById("order-success-modal").classList.remove("hidden");
+
+        // Reload data
+        loadStartupDetails(currentStartup);
+        showToast(`Investment of ${EquinestFormat.npr(record.totalAmount)} processed into Escrow!`, "success");
+
+      } catch (err) {
+        alert("Transaction failed: " + err.message);
+      }
+    }
+
+    function closeSuccessOrderModal() {
+      document.getElementById("order-success-modal").classList.add("hidden");
+    }
+  </script>
+</body>
+</html>

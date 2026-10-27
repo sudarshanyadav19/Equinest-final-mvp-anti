@@ -1,0 +1,1011 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Create Profile & Multi-Tier Pricing - Equinest</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Design System Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandRed: '#FF2D2D',
+            brandRedDark: '#E02020',
+            darkBg: '#000000',
+            darkCard: '#111111',
+            darkCardHover: '#161616',
+            darkInput: '#1E1E1E',
+            subtleBorder: '#333333'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body data-page="create" class="bg-black text-white selection:bg-[#FF2D2D] selection:text-white">
+
+  <!-- Sticky Global Navigation Bar -->
+  <div id="equinest-navbar"></div>
+
+  <!-- Header Banner -->
+  <section class="border-b border-[#1f1f1f] bg-[#080808] pt-8 pb-8">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+      <div class="flex items-center space-x-2 text-xs text-[#777777] mb-3">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <span>/</span>
+        <span class="text-[#FF2D2D] font-medium">Create Verified Profile</span>
+      </div>
+      <h1 class="text-2xl sm:text-4xl font-extrabold text-white">Create Listing or Member Profile</h1>
+      <p class="text-sm text-[#A0A0A0] mt-1">
+        Select your persona to start: raise micro-equity for your startup, register as an accredited Angel/VC, or post a local silent-partner matchmaking request.
+      </p>
+
+      <!-- Profile Type Selector Tabs -->
+      <div class="mt-8 grid grid-cols-1 sm:grid-cols-3 gap-3">
+        <button 
+          id="btn-select-startup" 
+          onclick="selectProfileType('startup')" 
+          class="p-4 rounded-xl border text-left transition-all bg-[#1a0a0a] border-[#FF2D2D] text-white"
+        >
+          <div class="text-xl mb-1">🚀</div>
+          <div class="font-bold text-sm">Startup Equity Listing</div>
+          <div class="text-[11px] text-[#A0A0A0] mt-0.5">Raise capital via standardized micro-units</div>
+        </button>
+
+        <button 
+          id="btn-select-investor" 
+          onclick="selectProfileType('investor')" 
+          class="p-4 rounded-xl border text-left transition-all bg-[#111111] border-[#262626] text-[#A0A0A0] hover:text-white hover:bg-[#161616]"
+        >
+          <div class="text-xl mb-1">💼</div>
+          <div class="font-bold text-sm">Investor Profile</div>
+          <div class="text-[11px] text-[#888888] mt-0.5">Angel or VC fund looking to back startups</div>
+        </button>
+
+        <button 
+          id="btn-select-partner" 
+          onclick="selectProfileType('partner')" 
+          class="p-4 rounded-xl border text-left transition-all bg-[#111111] border-[#262626] text-[#A0A0A0] hover:text-white hover:bg-[#161616]"
+        >
+          <div class="text-xl mb-1">🤝</div>
+          <div class="font-bold text-sm">Local Matchmaker</div>
+          <div class="text-[11px] text-[#888888] mt-0.5">Cafe, chiya bar, hotel or silent investor</div>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main Multi-Step Form Container -->
+  <main class="py-12 bg-black min-h-[700px]">
+    <div class="max-w-4xl mx-auto px-4 sm:px-6">
+
+      <!-- ============================================== -->
+      <!-- 1. STARTUP PROFILE FORM -->
+      <!-- ============================================== -->
+      <form id="form-startup" onsubmit="handleStartupFormSubmit(event)" class="space-y-8">
+        
+        <!-- Step 1: Basic Information -->
+        <div class="card-dark rounded-2xl p-6 md:p-8 border border-[#222222] space-y-5">
+          <h2 class="text-base font-bold text-white flex items-center space-x-2 pb-3 border-b border-[#222222]">
+            <span class="w-6 h-6 rounded-full bg-[#FF2D2D] text-white text-xs flex items-center justify-center font-bold">1</span>
+            <span>Startup Identity & Entity Structure</span>
+          </h2>
+
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Startup Name *</label>
+              <input type="text" id="startup-name" required placeholder="e.g. Doko Robotics Nepal" class="w-full px-3.5 py-2.5 text-xs input-dark" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Sector *</label>
+              <select id="startup-sector" required class="w-full px-3.5 py-2.5 text-xs input-dark">
+                <option value="AgriTech">AgriTech & Drone Analytics</option>
+                <option value="FinTech">FinTech & Payments</option>
+                <option value="CleanTech & EV">CleanTech & Electric Mobility</option>
+                <option value="HealthTech">HealthTech & Telemedicine</option>
+                <option value="D2C Brands">D2C & Nepali Export</option>
+                <option value="AI & Software">AI & Enterprise Software</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Tagline / Short Pitch *</label>
+            <input type="text" id="startup-tagline" required placeholder="One sentence summarizing your core value proposition" class="w-full px-3.5 py-2.5 text-xs input-dark" />
+          </div>
+
+          <!-- Legal Entity Type (With Custom Typing Option as required) -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Legal Entity Type *</label>
+              <select id="startup-legal-select" onchange="toggleCustomLegalInput(this.value)" class="w-full px-3.5 py-2.5 text-xs input-dark">
+                <option value="Private Limited Company">Private Limited Company (Pvt. Ltd.)</option>
+                <option value="Public Limited Company">Public Limited Company</option>
+                <option value="Registered Partnership">Registered Partnership Firm</option>
+                <option value="Sole Proprietorship">Sole Proprietorship (घरेलु दर्ता)</option>
+                <option value="__custom__">Other (Type Custom Entity Name...)</option>
+              </select>
+            </div>
+
+            <!-- Custom typed entity name container -->
+            <div id="custom-legal-wrapper" class="hidden">
+              <label class="block text-xs font-semibold text-[#FF2D2D] uppercase mb-1">Type Custom Legal Entity *</label>
+              <input type="text" id="startup-legal-custom" placeholder="e.g. Registered Co-operative / Trust" class="w-full px-3.5 py-2.5 text-xs input-dark border-[#FF2D2D]/60" />
+            </div>
+          </div>
+
+          <!-- Visuals: Logo URL & Cover Image presets -->
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-2">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Company Logo URL / Presets</label>
+              <input type="url" id="startup-logo-url" value="https://images.unsplash.com/photo-1572021335469-31706a17aaef?w=150&auto=format&fit=crop&q=80" class="w-full px-3.5 py-2.5 text-xs input-dark font-mono text-[11px]" />
+              <div class="flex space-x-2 mt-1.5 text-[10px] text-[#777777]">
+                <span>Presets:</span>
+                <button type="button" onclick="setLogoPreset(1)" class="text-[#FF2D2D] hover:underline">Tech</button>
+                <button type="button" onclick="setLogoPreset(2)" class="text-[#FF2D2D] hover:underline">Agri</button>
+                <button type="button" onclick="setLogoPreset(3)" class="text-[#FF2D2D] hover:underline">EV</button>
+              </div>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Cover Image URL / Presets</label>
+              <input type="url" id="startup-cover-url" value="https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop&q=80" class="w-full px-3.5 py-2.5 text-xs input-dark font-mono text-[11px]" />
+              <div class="flex space-x-2 mt-1.5 text-[10px] text-[#777777]">
+                <span>Presets:</span>
+                <button type="button" onclick="setCoverPreset(1)" class="text-[#FF2D2D] hover:underline">Modern Lab</button>
+                <button type="button" onclick="setCoverPreset(2)" class="text-[#FF2D2D] hover:underline">Factory</button>
+                <button type="button" onclick="setCoverPreset(3)" class="text-[#FF2D2D] hover:underline">Drone Field</button>
+              </div>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Pitch Video Link (YouTube / Vimeo / Loom)</label>
+            <input type="url" id="startup-video-url" placeholder="https://www.youtube.com/watch?v=..." class="w-full px-3.5 py-2.5 text-xs input-dark" />
+          </div>
+        </div>
+
+        <!-- Step 2: Fundraise & Dynamic Unit Price Calculator -->
+        <div class="card-dark rounded-2xl p-6 md:p-8 border border-[#222222] space-y-5">
+          <h2 class="text-base font-bold text-white flex items-center space-x-2 pb-3 border-b border-[#222222]">
+            <span class="w-6 h-6 rounded-full bg-[#FF2D2D] text-white text-xs flex items-center justify-center font-bold">2</span>
+            <span>Micro-Equity Fundraise & Dynamic Unit Price</span>
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Target Ask (NPR) *</label>
+              <input 
+                type="number" 
+                id="startup-target-ask" 
+                required 
+                value="2500000" 
+                min="100000" 
+                class="w-full px-3.5 py-2.5 text-xs input-dark font-mono font-bold"
+                oninput="calculateDynamicUnitPrice()"
+              />
+              <span class="text-[10px] text-[#666666]">e.g. NPR 25 Lakhs</span>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Total Units Offered *</label>
+              <input 
+                type="number" 
+                id="startup-total-units" 
+                required 
+                value="2000" 
+                min="100" 
+                class="w-full px-3.5 py-2.5 text-xs input-dark font-mono font-bold"
+                oninput="calculateDynamicUnitPrice()"
+              />
+              <span class="text-[10px] text-[#666666]">Number of micro-shares</span>
+            </div>
+
+            <!-- Dynamically calculated Unit Price Box -->
+            <div class="p-3 rounded-xl bg-[#181818] border border-[#2d2d2d] flex flex-col justify-center">
+              <span class="text-[10px] text-[#777777] uppercase font-bold">Calculated Unit Price</span>
+              <div id="dynamic-unit-price-display" class="text-lg font-extrabold text-[#FF2D2D] font-mono mt-0.5">
+                NPR 1,250 / unit
+              </div>
+              <span class="text-[9px] text-[#888888] mt-0.5">Target Ask ÷ Total Units</span>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Equity Offered (%) *</label>
+              <input type="number" id="startup-equity-pct" required value="5.0" step="0.1" min="0.5" max="49" class="w-full px-3.5 py-2.5 text-xs input-dark font-mono" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Min Investment Ticket (NPR) *</label>
+              <input type="number" id="startup-min-ticket" required value="12500" class="w-full px-3.5 py-2.5 text-xs input-dark font-mono" />
+            </div>
+          </div>
+
+          <!-- Company Age & Conditional 3-Year Financials -->
+          <div class="pt-4 border-t border-[#222222]">
+            <div class="flex items-center justify-between mb-3">
+              <div>
+                <label class="text-xs font-bold text-white">Company Operating Age</label>
+                <p class="text-[11px] text-[#888888]">Companies operating for > 3 years are required to submit 3-year historical revenue.</p>
+              </div>
+              <div class="flex items-center space-x-2">
+                <input 
+                  type="number" 
+                  id="startup-age-years" 
+                  value="3.5" 
+                  step="0.5" 
+                  min="0" 
+                  class="w-20 px-2 py-1.5 text-xs text-center input-dark font-mono"
+                  oninput="handleAgeChange(this.value)"
+                />
+                <span class="text-xs text-[#888888]">years</span>
+              </div>
+            </div>
+
+            <!-- Conditional 3-Year Financials Inputs -->
+            <div id="financials-3yr-container" class="p-4 rounded-xl bg-[#141414] border border-[#2b2b2b] space-y-3">
+              <div class="flex items-center justify-between">
+                <span class="text-xs font-bold text-emerald-400 flex items-center space-x-1.5">
+                  <span>✓ 3-Year Financials Schedule (Unlocked)</span>
+                </span>
+                <span class="text-[10px] text-[#777777]">Figures in NPR (रू)</span>
+              </div>
+
+              <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 text-xs">
+                <div>
+                  <label class="block text-[10px] text-[#888888] uppercase mb-1">FY 2078/79 Revenue</label>
+                  <input type="number" id="fin-rev-1" value="3800000" class="w-full px-3 py-2 text-xs input-dark font-mono" />
+                </div>
+                <div>
+                  <label class="block text-[10px] text-[#888888] uppercase mb-1">FY 2079/80 Revenue</label>
+                  <input type="number" id="fin-rev-2" value="8400000" class="w-full px-3 py-2 text-xs input-dark font-mono" />
+                </div>
+                <div>
+                  <label class="block text-[10px] text-[#888888] uppercase mb-1">FY 2080/81 Revenue</label>
+                  <input type="number" id="fin-rev-3" value="16200000" class="w-full px-3 py-2 text-xs input-dark font-mono" />
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 3: Founder Info & Public Socials -->
+        <div class="card-dark rounded-2xl p-6 md:p-8 border border-[#222222] space-y-5">
+          <h2 class="text-base font-bold text-white flex items-center space-x-2 pb-3 border-b border-[#222222]">
+            <span class="w-6 h-6 rounded-full bg-[#FF2D2D] text-white text-xs flex items-center justify-center font-bold">3</span>
+            <span>Founder Experience & Public Links</span>
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Founder Full Name *</label>
+              <input type="text" id="founder-name" required placeholder="e.g. Suman Thapa" class="w-full px-3.5 py-2.5 text-xs input-dark" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Founder Role *</label>
+              <input type="text" id="founder-role" required placeholder="CEO & Co-founder" class="w-full px-3.5 py-2.5 text-xs input-dark" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Founder Background & Industry Track Record</label>
+            <textarea id="founder-bio" rows="2" class="w-full px-3.5 py-2.5 text-xs input-dark" placeholder="Education, previous ventures, or domain expertise..."></textarea>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-[10px] text-[#888888] uppercase mb-1">Website</label>
+              <input type="url" id="social-website" placeholder="https://..." class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-[#888888] uppercase mb-1">LinkedIn</label>
+              <input type="url" id="social-linkedin" placeholder="https://linkedin.com/..." class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-[#888888] uppercase mb-1">Twitter / X</label>
+              <input type="url" id="social-twitter" placeholder="https://x.com/..." class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Step 4: Private Verification Info (Hidden from Public) -->
+        <div class="p-6 md:p-8 rounded-2xl bg-[#130a0a] border border-red-950/70 space-y-4">
+          <div class="flex items-center space-x-3 pb-3 border-b border-red-950/80">
+            <div class="w-8 h-8 rounded-lg bg-red-950/80 border border-red-900/60 text-[#FF2D2D] flex items-center justify-center font-bold">
+              🔒
+            </div>
+            <div>
+              <h2 class="text-sm font-bold text-white">Private KYC & Verification Credentials</h2>
+              <p class="text-[11px] text-[#A0A0A0]">
+                Strictly confidential. Verified by Equinest Compliance for legal issuance; <strong class="text-white">never displayed publicly</strong> on cards.
+              </p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            <div>
+              <label class="block text-[10px] font-semibold text-red-400 uppercase mb-1">PAN Number *</label>
+              <input type="text" id="verify-pan" required placeholder="9 digits (e.g. 609823411)" class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-semibold text-red-400 uppercase mb-1">Citizenship Certificate ID *</label>
+              <input type="text" id="verify-citizenship" required placeholder="e.g. 27-01-72-04982" class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-semibold text-red-400 uppercase mb-1">Official Mobile Phone *</label>
+              <input type="tel" id="verify-phone" required placeholder="+977 9841..." class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+          </div>
+        </div>
+
+        <!-- Submit to Pricing Trigger Button -->
+        <div class="pt-4">
+          <button type="submit" class="w-full py-4 rounded-xl btn-red text-base font-bold shadow-xl shadow-red-950/60 flex items-center justify-center space-x-2">
+            <span>Proceed to Plan Selection & Publish</span>
+            <svg class="w-5 h-5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </button>
+        </div>
+
+      </form>
+
+
+      <!-- ============================================== -->
+      <!-- 2. INVESTOR PROFILE FORM -->
+      <!-- ============================================== -->
+      <form id="form-investor" onsubmit="handleInvestorFormSubmit(event)" class="hidden space-y-8">
+        
+        <div class="card-dark rounded-2xl p-6 md:p-8 border border-[#222222] space-y-5">
+          <h2 class="text-base font-bold text-white flex items-center space-x-2 pb-3 border-b border-[#222222]">
+            <span class="w-6 h-6 rounded-full bg-[#FF2D2D] text-white text-xs flex items-center justify-center font-bold">1</span>
+            <span>Investor & Syndicate Identity</span>
+          </h2>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Full Legal Name *</label>
+              <input type="text" id="inv-name" required placeholder="e.g. Rameshwar Neupane" class="w-full px-3.5 py-2.5 text-xs input-dark" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Investor Type *</label>
+              <select id="inv-type" onchange="toggleVcInput(this.value)" class="w-full px-3.5 py-2.5 text-xs input-dark">
+                <option value="Angel Investor">Angel Investor (Individual)</option>
+                <option value="VC Firm">VC Firm / Syndicate</option>
+              </select>
+            </div>
+          </div>
+
+          <!-- VC Company Name (Conditional) -->
+          <div id="inv-vc-wrapper" class="hidden">
+            <label class="block text-xs font-semibold text-purple-400 uppercase mb-1">VC / Syndicate Company Name *</label>
+            <input type="text" id="inv-vc-name" placeholder="e.g. Himalaya Frontier Capital Pvt. Ltd." class="w-full px-3.5 py-2.5 text-xs input-dark" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Public Contact Gmail *</label>
+              <input type="email" id="inv-email" required placeholder="deals.investor@gmail.com" class="w-full px-3.5 py-2.5 text-xs input-dark font-mono" />
+            </div>
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">City & Base Location *</label>
+              <input type="text" id="inv-location" required placeholder="Kathmandu, Nepal / Overseas" class="w-full px-3.5 py-2.5 text-xs input-dark" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Typical Ticket Size Range (NPR)</label>
+            <input type="text" id="inv-ticket-size" value="NPR 5,00,000 - 25,00,000" class="w-full px-3.5 py-2.5 text-xs input-dark font-mono" />
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Brief Bio & Investment Focus</label>
+            <textarea id="inv-bio" rows="3" class="w-full px-3.5 py-2.5 text-xs input-dark" placeholder="Areas of interest, portfolio companies, value-add beyond capital..."></textarea>
+          </div>
+        </div>
+
+        <!-- Private Verification for Investor -->
+        <div class="p-6 md:p-8 rounded-2xl bg-[#130a0a] border border-red-950/70 space-y-4">
+          <div class="flex items-center space-x-3 pb-3 border-b border-red-950/80">
+            <div class="w-8 h-8 rounded-lg bg-red-950/80 text-[#FF2D2D] flex items-center justify-center font-bold">🔒</div>
+            <div>
+              <h2 class="text-sm font-bold text-white">Confidential Investor KYC Verification</h2>
+              <p class="text-[11px] text-[#A0A0A0]">Shielded from other platform members.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-[10px] font-semibold text-red-400 uppercase mb-1">Citizenship ID / Passport No. *</label>
+              <input type="text" id="inv-verify-id" required placeholder="27-01-XX-XXXXX" class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+            <div>
+              <label class="block text-[10px] font-semibold text-red-400 uppercase mb-1">Phone Number *</label>
+              <input type="tel" id="inv-verify-phone" required placeholder="+977 98..." class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-xl btn-red text-base font-bold shadow-xl shadow-red-950/60">
+          Proceed to Investor Plans & Register →
+        </button>
+
+      </form>
+
+
+      <!-- ============================================== -->
+      <!-- 3. LOCAL PARTNER PROFILE FORM -->
+      <!-- ============================================== -->
+      <form id="form-partner" onsubmit="handlePartnerFormSubmit(event)" class="hidden space-y-8">
+        
+        <div class="card-dark rounded-2xl p-6 md:p-8 border border-[#222222] space-y-5">
+          <h2 class="text-base font-bold text-white flex items-center space-x-2 pb-3 border-b border-[#222222]">
+            <span class="w-6 h-6 rounded-full bg-amber-500 text-black text-xs flex items-center justify-center font-bold">1</span>
+            <span>Local Partner Matchmaking Profile</span>
+          </h2>
+
+          <!-- Role Choice: 'Need Investment' vs 'Want to Invest' -->
+          <div>
+            <label class="block text-xs font-semibold text-[#888888] uppercase mb-2">Your Role in the Matchmaking *</label>
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+              <label class="p-3.5 rounded-xl border border-[#333333] hover:border-[#FF2D2D] bg-[#161616] cursor-pointer flex items-center space-x-3">
+                <input type="radio" name="partner_role" value="need_investment" checked class="accent-[#FF2D2D]" />
+                <div>
+                  <div class="font-bold text-xs text-white">Need Investment / Business Operator</div>
+                  <div class="text-[10px] text-[#888888]">Operating a cafe, chiya station, retail, or hotel</div>
+                </div>
+              </label>
+
+              <label class="p-3.5 rounded-xl border border-[#333333] hover:border-[#FF2D2D] bg-[#161616] cursor-pointer flex items-center space-x-3">
+                <input type="radio" name="partner_role" value="want_to_invest" class="accent-[#FF2D2D]" />
+                <div>
+                  <div class="font-bold text-xs text-white">Want to Invest / Silent Partner</div>
+                  <div class="text-[10px] text-[#888888]">Professional with liquid capital seeking profit-share</div>
+                </div>
+              </label>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Business Sector *</label>
+              <select id="partner-sector" required class="w-full px-3.5 py-2.5 text-xs input-dark">
+                <option value="Cafe">Boutique Cafe & Bistro</option>
+                <option value="Chiya Station">Chiya / Tea Station</option>
+                <option value="Hotel">Hotel & Eco-Resort</option>
+                <option value="Clothing & Retail">Clothing & Artisan Retail</option>
+                <option value="Cloud Kitchen">Cloud Kitchen / Bakery</option>
+              </select>
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Business Stage *</label>
+              <select id="partner-stage" required class="w-full px-3.5 py-2.5 text-xs input-dark">
+                <option value="Expansion / High Footfall">Expansion to 2nd / New Branch</option>
+                <option value="Established (Profitable)">Established & Cashflow Positive</option>
+                <option value="Ready for Capital Deployment">Ready for Capital Deployment</option>
+                <option value="Launching Soon">Prime Location Leased / Launching Soon</option>
+              </select>
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Listing Headline *</label>
+            <input type="text" id="partner-title" required placeholder="e.g. Specialty Cold Brew Bar in Jhamsikhel seeking 20% Silent Partner" class="w-full px-3.5 py-2.5 text-xs input-dark" />
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Funding Ask or Liquid Budget (NPR) *</label>
+              <input type="number" id="partner-funding-ask" required value="1000000" class="w-full px-3.5 py-2.5 text-xs input-dark font-mono font-bold" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Profit Share / Return Structure *</label>
+              <input type="text" id="partner-profit-share" required value="20% Net Monthly Profit Share" class="w-full px-3.5 py-2.5 text-xs input-dark" />
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Operator / Partner Name *</label>
+              <input type="text" id="partner-operator-name" required placeholder="e.g. Rina Gurung" class="w-full px-3.5 py-2.5 text-xs input-dark" />
+            </div>
+
+            <div>
+              <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Location / Street Address *</label>
+              <input type="text" id="partner-location" required placeholder="e.g. Jhamsikhel Road, Lalitpur" class="w-full px-3.5 py-2.5 text-xs input-dark" />
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-xs font-semibold text-[#888888] uppercase mb-1">Description & Traction *</label>
+            <textarea id="partner-description" rows="3" required class="w-full px-3.5 py-2.5 text-xs input-dark" placeholder="Current daily footfall, monthly revenues, lease details, and expectations for the silent partner..."></textarea>
+          </div>
+        </div>
+
+        <!-- Private Verification for Partner -->
+        <div class="p-6 md:p-8 rounded-2xl bg-[#130a0a] border border-red-950/70 space-y-4">
+          <div class="flex items-center space-x-3 pb-3 border-b border-red-950/80">
+            <div class="w-8 h-8 rounded-lg bg-red-950/80 text-[#FF2D2D] flex items-center justify-center font-bold">🔒</div>
+            <div>
+              <h2 class="text-sm font-bold text-white">Private KYC (Shielded from Public View)</h2>
+              <p class="text-[11px] text-[#A0A0A0]">Used for identity matchmaker guarantee.</p>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3">
+            <div>
+              <label class="block text-[10px] text-red-400 uppercase mb-1">PAN No. *</label>
+              <input type="text" id="partner-pan" required placeholder="60..." class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-red-400 uppercase mb-1">Citizenship No. *</label>
+              <input type="text" id="partner-citizenship" required placeholder="27-..." class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+            <div>
+              <label class="block text-[10px] text-red-400 uppercase mb-1">Phone *</label>
+              <input type="tel" id="partner-phone" required placeholder="+977..." class="w-full px-3 py-2 text-xs input-dark" />
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="w-full py-4 rounded-xl btn-red text-base font-bold shadow-xl shadow-red-950/60">
+          Proceed to Partner Plan & Publish →
+        </button>
+
+      </form>
+
+    </div>
+  </main>
+
+  <!-- Multi-Tier Pricing Modal (Triggered on 'Publish Profile') -->
+  <div id="pricing-plans-modal" class="hidden fixed inset-0 z-[150] flex items-center justify-center p-4 modal-backdrop overflow-y-auto">
+    <div class="bg-[#121212] border border-[#333333] rounded-3xl max-w-4xl w-full p-6 md:p-8 shadow-2xl relative my-8">
+      <button onclick="closePricingModal()" class="absolute top-5 right-5 text-[#777777] hover:text-white text-xl">✕</button>
+
+      <div class="text-center max-w-xl mx-auto mb-8">
+        <span class="text-[10px] font-bold uppercase tracking-wider text-[#FF2D2D] px-2.5 py-1 rounded-full bg-red-950/50 border border-red-900/40">
+          Step 2 of 2: Platform Activation
+        </span>
+        <h2 id="pricing-modal-title" class="text-2xl font-extrabold text-white mt-2">Choose Your Subscription Plan</h2>
+        <p class="text-xs text-[#A0A0A0] mt-1">
+          Select an authorized tier to publish your profile and unlock investor deal-flow across Nepal.
+        </p>
+      </div>
+
+      <!-- Pricing Plans Grid (Rendered dynamically based on profile role) -->
+      <div id="pricing-cards-container" class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
+        <!-- Injected by JS -->
+      </div>
+
+      <div class="p-4 rounded-xl bg-[#161616] border border-[#262626] flex items-center justify-between text-xs text-[#888888]">
+        <div class="flex items-center space-x-2">
+          <span class="text-emerald-400 font-bold">⚡ Demo Sandbox Mode:</span>
+          <span>Clicking 'Buy Now' simulates instant eSewa/Khalti gateway approval and immediately publishes your listing!</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    let activeProfileType = "startup"; // 'startup', 'investor', 'partner'
+    let pendingProfileData = null;
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderEquinestNavbar("pricing");
+
+      // Check query parameter
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("type")) {
+        selectProfileType(params.get("type"));
+      }
+
+      calculateDynamicUnitPrice();
+      populateUserFieldsFromSession();
+
+      window.addEventListener("equinest:auth_changed", populateUserFieldsFromSession);
+    });
+
+    function populateUserFieldsFromSession() {
+      if (!EquinestState.isAuthenticated()) return;
+      const u = EquinestState.getCurrentUser();
+      if (!u) return;
+
+      const fName = document.getElementById("founder-name");
+      const iName = document.getElementById("inv-name");
+      const iEmail = document.getElementById("inv-email");
+      const pName = document.getElementById("partner-operator-name");
+      const iPhone = document.getElementById("inv-verify-phone");
+      const pPhone = document.getElementById("partner-phone");
+      const sPhone = document.getElementById("verify-phone");
+
+      if (fName && !fName.value) fName.value = u.displayName || "";
+      if (iName && !iName.value) iName.value = u.displayName || "";
+      if (iEmail && !iEmail.value) iEmail.value = u.email || "";
+      if (pName && !pName.value) pName.value = u.displayName || "";
+      if (iPhone && !iPhone.value && u.phone) iPhone.value = u.phone;
+      if (pPhone && !pPhone.value && u.phone) pPhone.value = u.phone;
+      if (sPhone && !sPhone.value && u.phone) sPhone.value = u.phone;
+    }
+
+    function selectProfileType(type) {
+      activeProfileType = type;
+
+      const btnStartup = document.getElementById("btn-select-startup");
+      const btnInvestor = document.getElementById("btn-select-investor");
+      const btnPartner = document.getElementById("btn-select-partner");
+
+      const formStartup = document.getElementById("form-startup");
+      const formInvestor = document.getElementById("form-investor");
+      const formPartner = document.getElementById("form-partner");
+
+      const activeClass = "p-4 rounded-xl border text-left transition-all bg-[#1a0a0a] border-[#FF2D2D] text-white";
+      const inactiveClass = "p-4 rounded-xl border text-left transition-all bg-[#111111] border-[#262626] text-[#A0A0A0] hover:text-white hover:bg-[#161616]";
+
+      btnStartup.className = type === "startup" ? activeClass : inactiveClass;
+      btnInvestor.className = type === "investor" ? activeClass : inactiveClass;
+      btnPartner.className = type === "partner" ? activeClass : inactiveClass;
+
+      formStartup.classList.toggle("hidden", type !== "startup");
+      formInvestor.classList.toggle("hidden", type !== "investor");
+      formPartner.classList.toggle("hidden", type !== "partner");
+    }
+
+    // Custom legal entity toggle
+    function toggleCustomLegalInput(val) {
+      const wrapper = document.getElementById("custom-legal-wrapper");
+      if (val === "__custom__") {
+        wrapper.classList.remove("hidden");
+        document.getElementById("startup-legal-custom").required = true;
+      } else {
+        wrapper.classList.add("hidden");
+        document.getElementById("startup-legal-custom").required = false;
+      }
+    }
+
+    // Dynamic Unit Price calculation
+    function calculateDynamicUnitPrice() {
+      const ask = parseFloat(document.getElementById("startup-target-ask").value) || 0;
+      const units = parseFloat(document.getElementById("startup-total-units").value) || 1;
+      const price = Math.round(ask / units);
+      document.getElementById("dynamic-unit-price-display").textContent = `${EquinestFormat.npr(price)} / unit`;
+    }
+
+    // Age change toggle for 3-yr financials
+    function handleAgeChange(val) {
+      const years = parseFloat(val) || 0;
+      const finContainer = document.getElementById("financials-3yr-container");
+      if (years >= 3) {
+        finContainer.classList.remove("opacity-40", "pointer-events-none");
+      } else {
+        finContainer.classList.add("opacity-40");
+      }
+    }
+
+    // Presets helpers
+    function setLogoPreset(idx) {
+      const logos = [
+        "https://images.unsplash.com/photo-1572021335469-31706a17aaef?w=150&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1592982537447-7440770cbfc9?w=150&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1558981403-c5f9899a28bc?w=150&auto=format&fit=crop&q=80"
+      ];
+      document.getElementById("startup-logo-url").value = logos[idx-1];
+    }
+
+    function setCoverPreset(idx) {
+      const covers = [
+        "https://images.unsplash.com/photo-1581091226825-a6a2a5aee158?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1519750157634-b6d493a0f77c?w=800&auto=format&fit=crop&q=80",
+        "https://images.unsplash.com/photo-1586771107445-d3ca888129ff?w=800&auto=format&fit=crop&q=80"
+      ];
+      document.getElementById("startup-cover-url").value = covers[idx-1];
+    }
+
+    function toggleVcInput(val) {
+      const wrap = document.getElementById("inv-vc-wrapper");
+      if (val === "VC Firm") {
+        wrap.classList.remove("hidden");
+        document.getElementById("inv-vc-name").required = true;
+      } else {
+        wrap.classList.add("hidden");
+        document.getElementById("inv-vc-name").required = false;
+      }
+    }
+
+    // Handle Submissions & Open Subscription Modal (Enforces Authentication)
+    function handleStartupFormSubmit(e) {
+      e.preventDefault();
+      if (!EquinestState.isAuthenticated()) {
+        EquinestAuth.requireAuth(
+          () => { handleStartupFormSubmit(e); },
+          "Please log in or create an account to publish your startup equity round."
+        );
+        return;
+      }
+
+      const currentUser = EquinestState.getCurrentUser();
+      const legalSelect = document.getElementById("startup-legal-select").value;
+      const legalEntity = legalSelect === "__custom__" 
+        ? document.getElementById("startup-legal-custom").value 
+        : legalSelect;
+
+      const ask = parseFloat(document.getElementById("startup-target-ask").value);
+      const units = parseInt(document.getElementById("startup-total-units").value, 10);
+      const unitPrice = Math.round(ask / units);
+
+      pendingProfileData = {
+        type: "startup",
+        id: "startup-" + Date.now(),
+        authorId: currentUser.id,
+        authorEmail: currentUser.email,
+        authorName: currentUser.displayName,
+        name: document.getElementById("startup-name").value,
+        sector: document.getElementById("startup-sector").value,
+        tagline: document.getElementById("startup-tagline").value,
+        legalEntity,
+        stage: "Micro-Equity Seed",
+        location: "Kathmandu Valley, Nepal",
+        logo: document.getElementById("startup-logo-url").value,
+        coverImage: document.getElementById("startup-cover-url").value,
+        targetAsk: ask,
+        totalUnits: units,
+        unitPrice,
+        remainingUnits: units,
+        equityOffered: parseFloat(document.getElementById("startup-equity-pct").value),
+        minAsk: parseFloat(document.getElementById("startup-min-ticket").value),
+        valuation: Math.round(ask * 10),
+        ageYears: parseFloat(document.getElementById("startup-age-years").value),
+        pitchDeckSummary: document.getElementById("startup-tagline").value + ". Raising growth capital to expand production and commercial reach across Nepal.",
+        founder: {
+          name: document.getElementById("founder-name").value,
+          role: document.getElementById("founder-role").value,
+          bio: document.getElementById("founder-bio").value || "Vetted founder with industry expertise.",
+          avatar: "https://images.unsplash.com/photo-1534528741775-53994a69daeb?w=150&auto=format&fit=crop&q=80",
+          email: "founder@" + document.getElementById("startup-name").value.toLowerCase().replace(/\s+/g, "") + ".np"
+        },
+        financials: {
+          hasThreeYears: true,
+          records: [
+            { year: "FY 2078/79", revenue: parseFloat(document.getElementById("fin-rev-1").value) || 3000000, ebitda: -200000, netProfit: -400000, grossMargin: "35%" },
+            { year: "FY 2079/80", revenue: parseFloat(document.getElementById("fin-rev-2").value) || 7000000, ebitda: 600000, netProfit: 350000, grossMargin: "40%" },
+            { year: "FY 2080/81", revenue: parseFloat(document.getElementById("fin-rev-3").value) || 14000000, ebitda: 2200000, netProfit: 1600000, grossMargin: "45%" }
+          ]
+        },
+        useOfFunds: [
+          { category: "Working Capital & Inventory", percentage: 45 },
+          { category: "Marketing & Distribution", percentage: 35 },
+          { category: "Compliance & Reserve", percentage: 20 }
+        ],
+        socials: {
+          website: document.getElementById("social-website").value || "https://example.np",
+          linkedin: document.getElementById("social-linkedin").value || "https://linkedin.com",
+          twitter: document.getElementById("social-twitter").value || "https://x.com"
+        },
+        privateVerification: {
+          pan: document.getElementById("verify-pan").value,
+          citizenship: document.getElementById("verify-citizenship").value,
+          phone: document.getElementById("verify-phone").value,
+          verified: true
+        },
+        status: "Pending Subscription",
+        featured: false
+      };
+
+      openPricingModal("startup");
+    }
+
+    function handleInvestorFormSubmit(e) {
+      e.preventDefault();
+      if (!EquinestState.isAuthenticated()) {
+        EquinestAuth.requireAuth(
+          () => { handleInvestorFormSubmit(e); },
+          "Please log in or sign up to create an Investor profile."
+        );
+        return;
+      }
+
+      const currentUser = EquinestState.getCurrentUser();
+      const type = document.getElementById("inv-type").value;
+      const vcName = type === "VC Firm" ? document.getElementById("inv-vc-name").value : "Independent Angel Portfolio";
+
+      pendingProfileData = {
+        type: "investor",
+        id: "inv-" + Date.now(),
+        authorId: currentUser.id,
+        authorEmail: currentUser.email,
+        authorName: currentUser.displayName,
+        name: document.getElementById("inv-name").value,
+        type,
+        vcName,
+        email: document.getElementById("inv-email").value,
+        location: document.getElementById("inv-location").value,
+        ticketSize: document.getElementById("inv-ticket-size").value,
+        focusSectors: ["FinTech", "CleanTech & EV", "AgriTech", "D2C Brands"],
+        bio: document.getElementById("inv-bio").value || "Accredited investor passionate about scaling Nepali businesses.",
+        avatar: currentUser.avatar || "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=150&auto=format&fit=crop&q=80",
+        portfolioCount: 2,
+        verified: true,
+        privateVerification: {
+          citizenshipId: document.getElementById("inv-verify-id").value,
+          phone: document.getElementById("inv-verify-phone").value
+        }
+      };
+
+      openPricingModal("investor");
+    }
+
+    function handlePartnerFormSubmit(e) {
+      e.preventDefault();
+      if (!EquinestState.isAuthenticated()) {
+        EquinestAuth.requireAuth(
+          () => { handlePartnerFormSubmit(e); },
+          "Please log in or sign up to post a local partner matchmaking listing."
+        );
+        return;
+      }
+
+      const currentUser = EquinestState.getCurrentUser();
+      const role = document.querySelector('input[name="partner_role"]:checked').value;
+      const sector = document.getElementById("partner-sector").value;
+
+      pendingProfileData = {
+        type: "partner",
+        id: "partner-" + Date.now(),
+        authorId: currentUser.id,
+        authorEmail: currentUser.email,
+        authorName: currentUser.displayName,
+        role,
+        sector,
+        title: document.getElementById("partner-title").value,
+        stage: document.getElementById("partner-stage").value,
+        location: document.getElementById("partner-location").value,
+        fundingAsk: parseFloat(document.getElementById("partner-funding-ask").value),
+        profitShare: document.getElementById("partner-profit-share").value,
+        coverImage: "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=800&auto=format&fit=crop&q=80",
+        operatorName: document.getElementById("partner-operator-name").value,
+        description: document.getElementById("partner-description").value,
+        metrics: {
+          monthlyTurnover: "NPR 4,50,000",
+          margin: "35%",
+          timeline: "Immediate deployment"
+        },
+        privateVerification: {
+          pan: document.getElementById("partner-pan").value,
+          citizenship: document.getElementById("partner-citizenship").value,
+          phone: document.getElementById("partner-phone").value
+        },
+        publishedAt: "2026-10-19"
+      };
+
+      openPricingModal("partner");
+    }
+
+    // Modal Rendering & Subscription logic
+    function openPricingModal(role) {
+      const modal = document.getElementById("pricing-plans-modal");
+      const title = document.getElementById("pricing-modal-title");
+      const container = document.getElementById("pricing-cards-container");
+
+      const plans = SUBSCRIPTION_PLANS[role] || SUBSCRIPTION_PLANS.startup;
+      title.textContent = `${role.toUpperCase()} Membership Plans`;
+
+      container.innerHTML = plans.map(p => `
+        <div class="card-dark rounded-2xl p-6 border ${p.popular ? 'border-[#FF2D2D] bg-[#170c0c]' : 'border-[#262626]'} flex flex-col justify-between relative group">
+          ${p.badge ? `<span class="absolute -top-3 left-1/2 -translate-x-1/2 px-3 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[#FF2D2D] text-white shadow-md">${p.badge}</span>` : ''}
+
+          <div>
+            <div class="text-xs uppercase font-bold text-[#888888] mb-1">${p.name}</div>
+            <div class="text-xl font-extrabold text-white font-mono mb-2">${p.priceFormatted}</div>
+            <p class="text-xs text-[#A0A0A0] mb-5 leading-relaxed">${p.description}</p>
+
+            <ul class="space-y-2.5 text-xs text-[#D0D0D0] mb-6">
+              ${p.features.map(f => `
+                <li class="flex items-start space-x-2">
+                  <span class="text-[#FF2D2D] font-bold text-xs">✓</span>
+                  <span class="leading-snug">${f}</span>
+                </li>
+              `).join("")}
+            </ul>
+          </div>
+
+          <button 
+            onclick="subscribeAndPublish('${p.id}', '${p.name}', '${p.priceFormatted}')" 
+            class="w-full py-3 rounded-xl text-xs font-bold transition-all ${
+              p.popular ? 'btn-red shadow-lg shadow-red-950/60' : 'btn-secondary text-white'
+            }"
+          >
+            Buy Now / Subscribe (Demo)
+          </button>
+        </div>
+      `).join("");
+
+      modal.classList.remove("hidden");
+    }
+
+    function closePricingModal() {
+      document.getElementById("pricing-plans-modal").classList.add("hidden");
+    }
+
+    function subscribeAndPublish(planId, planName, planPriceFormatted) {
+      if (!pendingProfileData) return;
+
+      // 1. Subscribe user to plan
+      EquinestState.subscribeToPlan(planName, planPriceFormatted, pendingProfileData.type);
+
+      // 2. Save profile into appropriate collection
+      if (pendingProfileData.type === "startup") {
+        pendingProfileData.status = "Published";
+        EquinestState.saveStartup(pendingProfileData);
+
+        // Add inbox alert
+        EquinestState.addNotification({
+          type: "system",
+          title: `Startup Listed & Published! 🚀`,
+          body: `Congratulations! '${pendingProfileData.name}' is now live on the Equinest Marketplace. Retail and angel investors can now buy units.`,
+          targetLink: `company-detail.html?id=${pendingProfileData.id}`,
+          sender: {
+            name: "Equinest Listing Desk",
+            role: "Marketplace Admin",
+            avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80"
+          }
+        });
+
+        closePricingModal();
+        showToast("Startup published successfully! Redirecting to marketplace...", "success");
+        setTimeout(() => window.location.href = `company-detail.html?id=${pendingProfileData.id}`, 900);
+
+      } else if (pendingProfileData.type === "investor") {
+        EquinestState.saveInvestor(pendingProfileData);
+
+        EquinestState.addNotification({
+          type: "system",
+          title: `Investor Profile Activated! 💼`,
+          body: `Your investor account '${pendingProfileData.name}' is verified and published. You now have full access to invest in startup micro-units.`,
+          targetLink: "marketplace.html?view=investors",
+          sender: {
+            name: "Equinest Compliance",
+            role: "Deal Desk",
+            avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80"
+          }
+        });
+
+        closePricingModal();
+        showToast("Investor account unlocked! Redirecting...", "success");
+        setTimeout(() => window.location.href = "marketplace.html?view=investors", 900);
+
+      } else if (pendingProfileData.type === "partner") {
+        EquinestState.savePartner(pendingProfileData);
+
+        EquinestState.addNotification({
+          type: "system",
+          title: `Matchmaker Listing Live! 🤝`,
+          body: `Your local business listing '${pendingProfileData.title}' is now visible on Page 2. Silent partners can now contact you.`,
+          targetLink: "partner.html",
+          sender: {
+            name: "Local Business Desk",
+            role: "Partner Matchmaker",
+            avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150&auto=format&fit=crop&q=80"
+          }
+        });
+
+        closePricingModal();
+        showToast("Matchmaker listing published! Redirecting to Page 2...", "success");
+        setTimeout(() => window.location.href = "partner.html", 900);
+      }
+    }
+  </script>
+</body>
+</html>
