@@ -1,0 +1,177 @@
+/* Equinest Custom Styling & Design System Overrides */
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap');
+
+:root {
+  --bg-pure: #000000;
+  --bg-card: #111111;
+  --bg-card-hover: #161616;
+  --bg-input: #1E1E1E;
+  --border-subtle: #333333;
+  --border-focus: #FF2D2D;
+  --brand-red: #FF2D2D;
+  --brand-red-hover: #E02020;
+  --brand-red-glow: rgba(255, 45, 45, 0.25);
+  --text-primary: #FFFFFF;
+  --text-muted: #A0A0A0;
+}
+
+body {
+  font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  background-color: #000000;
+  color: #FFFFFF;
+  overflow-x: hidden;
+}
+
+/* Custom Scrollbars */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: #0a0a0a;
+}
+::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #FF2D2D;
+}
+
+/* Brand Highlights */
+.text-brand-red {
+  color: #FF2D2D;
+}
+.bg-brand-red {
+  background-color: #FF2D2D;
+}
+.bg-brand-red:hover {
+  background-color: #e02020;
+}
+.border-brand-red {
+  border-color: #FF2D2D;
+}
+.ring-brand-red:focus {
+  --tw-ring-color: #FF2D2D;
+}
+
+/* Glow effects */
+.glow-red {
+  box-shadow: 0 0 25px rgba(255, 45, 45, 0.3);
+}
+.glow-red-sm {
+  box-shadow: 0 0 12px rgba(255, 45, 45, 0.2);
+}
+.glow-subtle {
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.8);
+}
+
+/* Glassmorphism Navigation */
+.nav-blur {
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+}
+
+/* Cards & Containers */
+.card-dark {
+  background-color: #111111;
+  border: 1px solid #222222;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-dark:hover {
+  background-color: #161616;
+  border-color: #383838;
+  transform: translateY(-2px);
+}
+
+/* Form Controls */
+.input-dark {
+  background-color: #1E1E1E;
+  border: 1px solid #333333;
+  color: #FFFFFF;
+  border-radius: 0.5rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+.input-dark:focus {
+  outline: none;
+  border-color: #FF2D2D;
+  box-shadow: 0 0 0 2px rgba(255, 45, 45, 0.2);
+}
+.input-dark::placeholder {
+  color: #666666;
+}
+
+/* Red Button Style */
+.btn-red {
+  background-color: #FF2D2D;
+  color: #FFFFFF;
+  font-weight: 600;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+  box-shadow: 0 4px 15px rgba(255, 45, 45, 0.25);
+}
+.btn-red:hover {
+  background-color: #E02020;
+  box-shadow: 0 6px 20px rgba(255, 45, 45, 0.4);
+  transform: translateY(-1px);
+}
+.btn-red:active {
+  transform: translateY(0);
+}
+
+/* Secondary Button */
+.btn-secondary {
+  background-color: #1A1A1A;
+  border: 1px solid #333333;
+  color: #FFFFFF;
+  font-weight: 500;
+  border-radius: 0.5rem;
+  transition: all 0.2s ease;
+}
+.btn-secondary:hover {
+  background-color: #242424;
+  border-color: #555555;
+}
+
+/* Badge styles */
+.badge-red {
+  background-color: rgba(255, 45, 45, 0.12);
+  color: #FF4D4D;
+  border: 1px solid rgba(255, 45, 45, 0.3);
+}
+
+.badge-green {
+  background-color: rgba(34, 197, 94, 0.12);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.3);
+}
+
+/* Subtle Grid Background Pattern */
+.bg-grid-pattern {
+  background-size: 36px 36px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* Modal Backdrop */
+.modal-backdrop {
+  background-color: rgba(0, 0, 0, 0.82);
+  backdrop-filter: blur(8px);
+}
+
+/* Pulse Animation for Live Notification Badge */
+@keyframes redPulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.18);
+    opacity: 0.85;
+  }
+}
+.animate-pulse-red {
+  animation: redPulse 2s infinite ease-in-out;
+}
