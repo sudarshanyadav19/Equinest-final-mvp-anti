@@ -1,0 +1,379 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inbox & Notification Portal - Equinest</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Design System Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandRed: '#FF2D2D',
+            brandRedDark: '#E02020',
+            darkBg: '#000000',
+            darkCard: '#111111',
+            darkCardHover: '#161616',
+            darkInput: '#1E1E1E',
+            subtleBorder: '#333333'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body data-page="inbox" class="bg-black text-white selection:bg-[#FF2D2D] selection:text-white">
+
+  <!-- Sticky Global Navigation Bar -->
+  <div id="equinest-navbar"></div>
+
+  <!-- Header Section -->
+  <section class="border-b border-[#1f1f1f] bg-[#080808] pt-8 pb-8">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      
+      <div class="flex items-center space-x-2 text-xs text-[#777777] mb-3">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <span>/</span>
+        <span class="text-[#FF2D2D] font-medium">Inbox Portal</span>
+      </div>
+
+      <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+        <div>
+          <h1 class="text-2xl sm:text-3xl font-extrabold text-white flex items-center">
+            <span>Inbox & Notification Portal</span>
+            <span id="header-unread-count" class="ml-3 px-2.5 py-0.5 rounded-full text-xs font-bold bg-[#FF2D2D] text-white">
+              0 unread
+            </span>
+          </h1>
+          <p class="text-xs sm:text-sm text-[#A0A0A0] mt-1">
+            Real-time notifications for micro-equity investments, silent partner matchmaking inquiries, and platform escrow alerts.
+          </p>
+        </div>
+
+        <!-- Quick bulk action controls -->
+        <div class="flex items-center space-x-2">
+          <button 
+            onclick="markAllRead()" 
+            class="px-3 py-1.5 rounded-lg text-xs font-semibold btn-secondary text-[#D0D0D0] hover:text-white"
+          >
+            ✓ Mark All Read
+          </button>
+          <button 
+            onclick="resetDemoData()" 
+            class="px-3 py-1.5 rounded-lg text-xs font-semibold bg-[#181818] hover:bg-[#222222] text-[#888888] hover:text-white border border-[#2e2e2e]"
+            title="Reset to default mock messages"
+          >
+            ↺ Reset Demo
+          </button>
+        </div>
+      </div>
+
+      <!-- Filter Tabs: [ All ], [ Investment Alerts ], [ Partner Inquiries ], [ System & Billing ] -->
+      <div class="mt-6 flex items-center space-x-2 overflow-x-auto pb-1 text-xs">
+        <button 
+          id="filter-all-btn" 
+          onclick="filterInbox('all')" 
+          class="px-4 py-2 rounded-xl text-xs font-bold transition-all bg-[#FF2D2D] text-white shadow-sm"
+        >
+          All Alerts
+          <span id="tab-cnt-all" class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-black/40">0</span>
+        </button>
+
+        <button 
+          id="filter-invest-btn" 
+          onclick="filterInbox('investment')" 
+          class="px-4 py-2 rounded-xl text-xs font-semibold text-[#888888] hover:text-white hover:bg-[#161616] border border-[#242424] transition-all whitespace-nowrap"
+        >
+          💰 Investment Alerts
+          <span id="tab-cnt-invest" class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-[#1c1c1c]">0</span>
+        </button>
+
+        <button 
+          id="filter-partner-btn" 
+          onclick="filterInbox('partner_inquiry')" 
+          class="px-4 py-2 rounded-xl text-xs font-semibold text-[#888888] hover:text-white hover:bg-[#161616] border border-[#242424] transition-all whitespace-nowrap"
+        >
+          🤝 Partner Inquiries
+          <span id="tab-cnt-partner" class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-[#1c1c1c]">0</span>
+        </button>
+
+        <button 
+          id="filter-system-btn" 
+          onclick="filterInbox('system')" 
+          class="px-4 py-2 rounded-xl text-xs font-semibold text-[#888888] hover:text-white hover:bg-[#161616] border border-[#242424] transition-all whitespace-nowrap"
+        >
+          🔔 System & Compliance
+          <span id="tab-cnt-system" class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-[#1c1c1c]">0</span>
+        </button>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Inbox Feed Container -->
+  <main class="py-10 bg-black min-h-[600px]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6">
+      
+      <!-- Notifications List -->
+      <div id="notifications-container" class="space-y-4">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="inbox-empty-state" class="hidden py-20 text-center">
+        <div class="w-16 h-16 rounded-full bg-[#141414] border border-[#282828] flex items-center justify-center text-[#666666] mx-auto mb-4">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5m16 0h-2.586a1 1 0 00-.707.293l-2.414 2.414a1 1 0 01-.707.293h-3.172a1 1 0 01-.707-.293l-2.414-2.414A1 1 0 006.586 13H4"></path>
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-white">Your inbox is clear</h3>
+        <p class="text-xs text-[#888888] mt-1">When someone invests in your startup or expresses interest in your partner listing, alerts appear here.</p>
+        <div class="mt-5 flex justify-center space-x-3">
+          <a href="marketplace.html" class="px-4 py-2 text-xs font-bold btn-red">Explore Deals (Page 1)</a>
+          <a href="partner.html" class="px-4 py-2 text-xs font-semibold btn-secondary">Find Partners (Page 2)</a>
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Interactive Reply / Counter-Offer Modal -->
+  <div id="reply-modal" class="hidden fixed inset-0 z-[120] flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-[#141414] border border-[#333333] rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="closeReplyModal()" class="absolute top-4 right-4 text-[#777777] hover:text-white text-lg">✕</button>
+
+      <div class="flex items-center space-x-3 mb-4">
+        <img id="reply-avatar" src="" class="w-10 h-10 rounded-full object-cover border border-[#444444]" />
+        <div>
+          <h3 id="reply-recipient-name" class="text-base font-bold text-white">Recipient Name</h3>
+          <div id="reply-recipient-role" class="text-xs text-[#FF2D2D]">Role</div>
+        </div>
+      </div>
+
+      <div class="p-3 rounded-lg bg-[#181818] border border-[#282828] text-xs text-[#888888] mb-4">
+        <span class="text-[#666666]">In response to:</span>
+        <div id="reply-context-msg" class="text-[#CCCCCC] font-medium mt-0.5 line-clamp-2">"Message context..."</div>
+      </div>
+
+      <form id="reply-form" onsubmit="sendDirectReply(event)" class="space-y-4">
+        <input type="hidden" id="reply-notif-id" />
+        <div>
+          <label class="block text-[11px] font-semibold text-[#888888] uppercase mb-1">Your Direct Reply or Meeting Proposal</label>
+          <textarea 
+            id="reply-message-text" 
+            rows="4" 
+            required
+            class="w-full px-3 py-2 text-xs input-dark"
+            placeholder="Thank you for reaching out! We would be delighted to schedule a Zoom or meet at our Jhamsikhel hub..."
+          ></textarea>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 rounded-lg btn-red text-xs font-bold shadow-md shadow-red-950/40">
+          Send Reply & Dispatch Alert ⚡
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    let activeFilter = "all";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderEquinestNavbar("inbox");
+      renderInboxFeed();
+
+      window.addEventListener("equinest:notifications_changed", renderInboxFeed);
+    });
+
+    function filterInbox(category) {
+      activeFilter = category;
+      const bAll = document.getElementById("filter-all-btn");
+      const bInvest = document.getElementById("filter-invest-btn");
+      const bPartner = document.getElementById("filter-partner-btn");
+      const bSystem = document.getElementById("filter-system-btn");
+
+      const activeClass = "px-4 py-2 rounded-xl text-xs font-bold transition-all bg-[#FF2D2D] text-white shadow-sm whitespace-nowrap";
+      const inactiveClass = "px-4 py-2 rounded-xl text-xs font-semibold text-[#888888] hover:text-white hover:bg-[#161616] border border-[#242424] transition-all whitespace-nowrap";
+
+      bAll.className = category === "all" ? activeClass : inactiveClass;
+      bInvest.className = category === "investment" ? activeClass : inactiveClass;
+      bPartner.className = category === "partner_inquiry" ? activeClass : inactiveClass;
+      bSystem.className = category === "system" ? activeClass : inactiveClass;
+
+      renderInboxFeed();
+    }
+
+    function renderInboxFeed() {
+      const allNotifs = EquinestState.getNotifications();
+      const unreadCount = EquinestState.getUnreadNotificationCount();
+
+      // Update counters
+      document.getElementById("header-unread-count").textContent = `${unreadCount} unread`;
+      document.getElementById("tab-cnt-all").textContent = allNotifs.length;
+      document.getElementById("tab-cnt-invest").textContent = allNotifs.filter(n => n.type === "investment").length;
+      document.getElementById("tab-cnt-partner").textContent = allNotifs.filter(n => n.type === "partner_inquiry").length;
+      document.getElementById("tab-cnt-system").textContent = allNotifs.filter(n => n.type === "system").length;
+
+      let filtered = allNotifs;
+      if (activeFilter !== "all") {
+        filtered = allNotifs.filter(n => n.type === activeFilter);
+      }
+
+      const container = document.getElementById("notifications-container");
+      const empty = document.getElementById("inbox-empty-state");
+
+      if (filtered.length === 0) {
+        container.innerHTML = "";
+        empty.classList.remove("hidden");
+        return;
+      }
+
+      empty.classList.add("hidden");
+
+      container.innerHTML = filtered.map(n => {
+        const isUnread = !n.read;
+        const sender = n.sender || { name: "System", role: "Platform Alert", avatar: "https://images.unsplash.com/photo-1560250097-0b93528c311a?w=150" };
+
+        let typeBadge = "";
+        if (n.type === "investment") {
+          typeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-emerald-950/70 text-emerald-300 border border-emerald-800/40">💰 Investment Alert</span>';
+        } else if (n.type === "partner_inquiry") {
+          typeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-amber-950/70 text-amber-300 border border-amber-800/40">🤝 Partner Inquiry</span>';
+        } else {
+          typeBadge = '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-blue-950/70 text-blue-300 border border-blue-800/40">🔔 System & Escrow</span>';
+        }
+
+        return `
+          <div class="card-dark rounded-2xl p-5 border ${isUnread ? 'border-[#FF2D2D]/40 bg-[#160d0d]' : 'border-[#222222]'} transition-all flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+            
+            <div class="flex items-start space-x-3.5 flex-1 min-w-0">
+              <img src="${sender.avatar}" alt="${sender.name}" class="w-11 h-11 rounded-xl object-cover border ${isUnread ? 'border-[#FF2D2D]' : 'border-[#333333]'} flex-shrink-0" />
+              
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-wrap items-center gap-2 mb-1">
+                  ${typeBadge}
+                  ${isUnread ? '<span class="w-2 h-2 rounded-full bg-[#FF2D2D] animate-pulse-red"></span>' : ''}
+                  <span class="text-[11px] text-[#777777]">${n.timestamp}</span>
+                </div>
+
+                <h3 class="font-bold text-white text-sm mb-1">${n.title}</h3>
+                <p class="text-xs text-[#A0A0A0] leading-relaxed mb-2">${n.body}</p>
+
+                <div class="text-[11px] text-[#666666] flex items-center space-x-2">
+                  <span>From: <strong class="text-white">${sender.name}</strong> (${sender.role})</span>
+                  ${sender.email ? `<span>•</span><span class="text-[#888888] font-mono">${sender.email}</span>` : ''}
+                </div>
+              </div>
+            </div>
+
+            <!-- Action buttons -->
+            <div class="flex sm:flex-col items-center sm:items-end justify-between w-full sm:w-auto gap-2 pt-3 sm:pt-0 border-t sm:border-t-0 border-[#222222] flex-shrink-0">
+              <div class="flex items-center space-x-2">
+                ${n.targetLink ? `
+                  <a href="${n.targetLink}" onclick="EquinestState.markNotificationAsRead('${n.id}')" class="px-3 py-1.5 rounded-lg text-xs font-semibold btn-secondary text-white">
+                    View Deal →
+                  </a>
+                ` : ''}
+
+                ${n.type === "partner_inquiry" || n.type === "investment" ? `
+                  <button onclick="openReplyModal('${n.id}')" class="px-3 py-1.5 rounded-lg text-xs font-bold btn-red">
+                    Reply
+                  </button>
+                ` : ''}
+              </div>
+
+              <div class="flex items-center space-x-2 text-[10px]">
+                ${isUnread ? `
+                  <button onclick="EquinestState.markNotificationAsRead('${n.id}')" class="text-[#A0A0A0] hover:text-white">
+                    Mark Read
+                  </button>
+                  <span class="text-[#444444]">•</span>
+                ` : ''}
+                <button onclick="EquinestState.deleteNotification('${n.id}')" class="text-[#777777] hover:text-red-400">
+                  Delete
+                </button>
+              </div>
+            </div>
+
+          </div>
+        `;
+      }).join("");
+    }
+
+    function markAllRead() {
+      EquinestState.markAllNotificationsAsRead();
+      showToast("All notifications marked as read", "info");
+    }
+
+    function resetDemoData() {
+      if (confirm("Reset notifications to initial demo seed state?")) {
+        EquinestState.resetAll();
+        showToast("Demo data reloaded successfully!", "success");
+        setTimeout(() => window.location.reload(), 300);
+      }
+    }
+
+    // Reply Modal Logic
+    function openReplyModal(notifId) {
+      if (!EquinestState.isAuthenticated()) {
+        EquinestAuth.requireAuth(
+          () => { openReplyModal(notifId); },
+          "Please log in or sign up to send a direct message reply."
+        );
+        return;
+      }
+
+      const notif = EquinestState.getNotifications().find(n => n.id === notifId);
+      if (!notif) return;
+
+      document.getElementById("reply-notif-id").value = notif.id;
+      document.getElementById("reply-avatar").src = notif.sender.avatar;
+      document.getElementById("reply-recipient-name").textContent = notif.sender.name;
+      document.getElementById("reply-recipient-role").textContent = notif.sender.role;
+      document.getElementById("reply-context-msg").textContent = `"${notif.body.substring(0, 100)}..."`;
+
+      document.getElementById("reply-modal").classList.remove("hidden");
+    }
+
+    function closeReplyModal() {
+      document.getElementById("reply-modal").classList.add("hidden");
+    }
+
+    function sendDirectReply(e) {
+      e.preventDefault();
+      const notifId = document.getElementById("reply-notif-id").value;
+      const text = document.getElementById("reply-message-text").value;
+      const originalNotif = EquinestState.getNotifications().find(n => n.id === notifId);
+      const currentUser = EquinestState.getCurrentUser();
+
+      // Mark original as read
+      EquinestState.markNotificationAsRead(notifId);
+
+      // Add outbound confirmation to inbox
+      EquinestState.addNotification({
+        type: "system",
+        title: `Reply Dispatched to ${originalNotif.sender.name} 📤`,
+        body: `You replied: "${text}". A direct SMS/Email ping was sent to their registered endpoint.`,
+        targetLink: originalNotif.targetLink,
+        sender: {
+          name: currentUser.displayName,
+          role: currentUser.subtitle,
+          avatar: currentUser.avatar
+        }
+      });
+
+      closeReplyModal();
+      showToast("Reply delivered successfully!", "success");
+      document.getElementById("reply-form").reset();
+    }
+  </script>
+</body>
+</html>
