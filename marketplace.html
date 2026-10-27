@@ -1,0 +1,715 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Marketplace (Page 1) - Equinest | Dual-Engine Venture Platform</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Design System Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandRed: '#FF2D2D',
+            brandRedDark: '#E02020',
+            darkBg: '#000000',
+            darkCard: '#111111',
+            darkCardHover: '#161616',
+            darkInput: '#1E1E1E',
+            subtleBorder: '#333333'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body data-page="marketplace" class="bg-black text-white selection:bg-[#FF2D2D] selection:text-white">
+
+  <!-- Sticky Global Navigation Bar -->
+  <div id="equinest-navbar"></div>
+
+  <!-- Page Header & Toggle Banner -->
+  <section class="border-b border-[#1f1f1f] bg-[#080808] pt-8 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumbs & Badge -->
+      <div class="flex items-center space-x-2 text-xs text-[#777777] mb-3">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <span>/</span>
+        <span class="text-[#FF2D2D] font-medium">Main Marketplace (Page 1)</span>
+      </div>
+
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold text-white flex items-center">
+            <span>Primary Marketplace</span>
+            <span class="ml-3 text-xs font-semibold px-2.5 py-1 rounded bg-[#1e1e1e] text-[#FF5555] border border-[#333333]">
+              Page 1
+            </span>
+          </h1>
+          <p class="text-sm text-[#A0A0A0] mt-1 max-w-2xl">
+            Discover verified Nepali startups raising micro-equity, or connect with active Angel Investors and VC syndicates across the country.
+          </p>
+        </div>
+
+        <!-- Role Permissions Info Indicator -->
+        <div id="role-status-card" class="flex items-center space-x-3 p-3 rounded-xl bg-[#141414] border border-[#262626] text-xs">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+
+      <!-- Top Toggle Switch: [ Startup Profiles ] vs [ Investor Profiles ] -->
+      <div class="mt-8 flex flex-col sm:flex-row sm:items-center justify-between gap-4 pt-6 border-t border-[#1a1a1a]">
+        
+        <div class="inline-flex p-1.5 rounded-xl bg-[#141414] border border-[#2a2a2a] self-start shadow-inner">
+          <button 
+            id="toggle-startups-btn" 
+            onclick="switchViewMode('startups')"
+            class="flex items-center space-x-2 px-5 py-2.5 rounded-lg text-xs font-bold transition-all bg-[#FF2D2D] text-white shadow-md shadow-red-950/50"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <span>Startup Profiles</span>
+            <span id="startup-count-badge" class="px-1.5 py-0.2 rounded-full bg-black/40 text-[10px]">0</span>
+          </button>
+
+          <button 
+            id="toggle-investors-btn" 
+            onclick="switchViewMode('investors')"
+            class="flex items-center space-x-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-[#888888] hover:text-white transition-all"
+          >
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path>
+            </svg>
+            <span>Investor Profiles</span>
+            <span id="investor-count-badge" class="px-1.5 py-0.2 rounded-full bg-[#222222] text-[10px]">0</span>
+          </button>
+        </div>
+
+        <!-- Live Search & Sort Toolbar -->
+        <div class="flex items-center space-x-3 w-full sm:w-auto">
+          <!-- Search input -->
+          <div class="relative flex-1 sm:w-64">
+            <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#666666]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+            </svg>
+            <input 
+              type="text" 
+              id="marketplace-search-input"
+              placeholder="Search by name, sector..." 
+              class="w-full pl-9 pr-3 py-2 text-xs input-dark rounded-lg"
+              oninput="handleSearch(this.value)"
+            />
+          </div>
+
+          <!-- Sort select -->
+          <select 
+            id="marketplace-sort-select" 
+            onchange="handleSortChange(this.value)"
+            class="px-3 py-2 text-xs input-dark rounded-lg cursor-pointer text-[#A0A0A0]"
+          >
+            <option value="featured">Featured First</option>
+            <option value="price_low">Unit Price: Low to High</option>
+            <option value="price_high">Unit Price: High to Low</option>
+            <option value="remaining_low">Units Filling Fast</option>
+          </select>
+        </div>
+
+      </div>
+
+      <!-- Sector Filter Pills -->
+      <div id="sector-filters-bar" class="mt-4 flex items-center space-x-2 overflow-x-auto pb-2 scrollbar-none text-xs">
+        <!-- Rendered by JS -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Main Marketplace Content Grid -->
+  <main class="py-12 bg-black min-h-[600px]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Startups View Container -->
+      <div id="startups-view-section">
+        <div class="flex items-center justify-between mb-6">
+          <div class="text-xs text-[#888888]">
+            Showing <span id="displayed-startups-count" class="font-bold text-white">0</span> verified startup offerings
+          </div>
+          <a href="create-profile.html?type=startup" class="text-xs font-semibold text-[#FF2D2D] hover:underline flex items-center">
+            <span>+ List Your Startup</span>
+          </a>
+        </div>
+
+        <div id="startups-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Investors View Container -->
+      <div id="investors-view-section" class="hidden">
+        <div class="flex items-center justify-between mb-6">
+          <div class="text-xs text-[#888888]">
+            Showing <span id="displayed-investors-count" class="font-bold text-white">0</span> verified Angel & VC profiles
+          </div>
+          <a href="create-profile.html?type=investor" class="text-xs font-semibold text-[#FF2D2D] hover:underline flex items-center">
+            <span>+ Register as Investor</span>
+          </a>
+        </div>
+
+        <div id="investors-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <!-- Rendered by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="hidden py-16 text-center">
+        <div class="w-16 h-16 rounded-full bg-[#181818] border border-[#2a2a2a] flex items-center justify-center text-[#777777] mx-auto mb-4">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-white">No matching listings found</h3>
+        <p class="text-xs text-[#888888] mt-1 max-w-sm mx-auto">Try resetting your search query or selecting "All Categories".</p>
+        <button onclick="resetFilters()" class="mt-4 px-4 py-2 text-xs font-bold btn-secondary">
+          Reset All Filters
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Investor Permission Restricted Modal -->
+  <div id="investor-restricted-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-[#141414] border border-[#333333] rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="closeRestrictedModal()" class="absolute top-4 right-4 text-[#777777] hover:text-white text-lg">✕</button>
+      
+      <div class="w-12 h-12 rounded-xl bg-red-950/60 border border-red-800/40 text-[#FF2D2D] flex items-center justify-center mb-4">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"></path>
+        </svg>
+      </div>
+
+      <h3 class="text-lg font-bold text-white mb-2">Investor Profile Required</h3>
+      <p class="text-xs text-[#A0A0A0] leading-relaxed mb-4">
+        Direct 'Invest Now' actions are exclusive to verified <span class="text-white font-semibold">Investor Profiles</span> to comply with standard security and regulatory frameworks.
+      </p>
+
+      <div class="p-3 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] text-xs text-[#888888] mb-5">
+        <div>Currently logged in as:</div>
+        <div id="restricted-current-role" class="text-white font-semibold mt-0.5">Guest Visitor</div>
+      </div>
+
+      <div class="space-y-2">
+        <button 
+          onclick="handleRoleSwitch('investor-demo'); closeRestrictedModal();" 
+          class="w-full py-2.5 rounded-lg btn-red text-xs font-bold flex items-center justify-center space-x-2"
+        >
+          <span>Switch to Investor (Aayush Adhikari)</span>
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </button>
+
+        <a 
+          id="restricted-inspect-link" 
+          href="company-detail.html" 
+          class="w-full py-2.5 rounded-lg btn-secondary text-xs font-semibold text-center block"
+        >
+          View Company Details (Public Preview)
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pitch / Contact Investor Modal -->
+  <div id="pitch-investor-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-[#141414] border border-[#333333] rounded-2xl max-w-lg w-full p-6 shadow-2xl relative">
+      <button onclick="closePitchModal()" class="absolute top-4 right-4 text-[#777777] hover:text-white text-lg">✕</button>
+      
+      <div class="flex items-center space-x-3 mb-4">
+        <img id="pitch-modal-avatar" src="" class="w-10 h-10 rounded-full object-cover border border-[#444444]" />
+        <div>
+          <h3 id="pitch-modal-name" class="text-base font-bold text-white">Investor Name</h3>
+          <div id="pitch-modal-type" class="text-xs text-[#FF2D2D]">Angel Investor</div>
+        </div>
+      </div>
+
+      <p class="text-xs text-[#A0A0A0] mb-4">
+        Send a direct pitch notification and contact request to this investor.
+      </p>
+
+      <form id="pitch-form" onsubmit="submitPitch(event)" class="space-y-4">
+        <input type="hidden" id="pitch-target-investor-id" />
+        <div>
+          <label class="block text-[11px] font-semibold text-[#888888] uppercase mb-1">Your Startup or Project</label>
+          <input type="text" id="pitch-startup-name" required placeholder="e.g. EcoRide Mobility" class="w-full px-3 py-2 text-xs input-dark" />
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-[#888888] uppercase mb-1">Pitch Summary & Target Ask (NPR)</label>
+          <textarea id="pitch-message" required rows="3" placeholder="Brief elevator pitch, monthly traction, and funding requirement..." class="w-full px-3 py-2 text-xs input-dark"></textarea>
+        </div>
+        <div>
+          <label class="block text-[11px] font-semibold text-[#888888] uppercase mb-1">Your Verified Contact Email / Phone</label>
+          <input type="text" id="pitch-contact" required placeholder="founder@yourstartup.np / +977 98..." class="w-full px-3 py-2 text-xs input-dark" />
+        </div>
+
+        <button type="submit" class="w-full py-2.5 rounded-lg btn-red text-xs font-bold">
+          Send Pitch & Direct Alert →
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    let currentViewMode = "startups"; // 'startups' or 'investors'
+    let selectedSector = "All";
+    let searchQuery = "";
+    let sortOption = "featured";
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderEquinestNavbar("marketplace");
+      updateRoleStatusBanner();
+
+      // Check URL parameters for direct search
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("search")) {
+        searchQuery = params.get("search");
+        document.getElementById("marketplace-search-input").value = searchQuery;
+      }
+      if (params.has("view")) {
+        currentViewMode = params.get("view");
+      }
+
+      renderSectorFilters();
+      renderMarketplace();
+
+      // Listen for role changes
+      window.addEventListener("equinest:user_changed", () => {
+        updateRoleStatusBanner();
+        renderMarketplace();
+      });
+      window.addEventListener("equinest:startups_changed", renderMarketplace);
+      window.addEventListener("equinest:investors_changed", renderMarketplace);
+    });
+
+    function updateRoleStatusBanner() {
+      const isAuth = EquinestState.isAuthenticated();
+      const user = EquinestState.getCurrentUser();
+      const banner = document.getElementById("role-status-card");
+      if (!banner) return;
+
+      if (!isAuth) {
+        banner.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-[#1e1e1e] flex items-center justify-center">
+            <span class="text-amber-400 font-bold text-sm">👁️</span>
+          </div>
+          <div>
+            <div class="text-[11px] text-[#888888]">Browsing Mode: <strong class="text-white">Guest Visitor</strong></div>
+            <button onclick="EquinestAuth.openAuthModal({ tab: 'login', intentMessage: 'Log in to unlock direct investments & founder deal flow.' })" class="text-[10px] text-[#FF2D2D] hover:underline font-bold mt-0.5 block text-left">
+              ⚡ Log In or Sign Up to Unlock Platform →
+            </button>
+          </div>
+        `;
+      } else {
+        banner.innerHTML = `
+          <div class="w-8 h-8 rounded-full bg-[#1e1e1e] flex items-center justify-center">
+            ${user.canInvest 
+              ? '<span class="text-emerald-400 font-bold text-sm">⚡</span>' 
+              : '<span class="text-blue-400 font-bold text-sm">💼</span>'}
+          </div>
+          <div>
+            <div class="text-[11px] text-[#888888]">Authenticated: <strong class="text-white">${user.displayName}</strong></div>
+            <div class="text-[10px] ${user.canInvest ? 'text-emerald-400' : 'text-amber-400'} font-medium">
+              ${user.canInvest 
+                ? '✓ Investor Privileges Active (Direct Investment Enabled)' 
+                : '• ' + user.subtitle + ' (View Mode)'}
+            </div>
+          </div>
+        `;
+      }
+    }
+
+    function switchViewMode(mode) {
+      currentViewMode = mode;
+      const startupBtn = document.getElementById("toggle-startups-btn");
+      const investorBtn = document.getElementById("toggle-investors-btn");
+      const startupSec = document.getElementById("startups-view-section");
+      const investorSec = document.getElementById("investors-view-section");
+
+      if (mode === "startups") {
+        startupBtn.className = "flex items-center space-x-2 px-5 py-2.5 rounded-lg text-xs font-bold transition-all bg-[#FF2D2D] text-white shadow-md shadow-red-950/50";
+        investorBtn.className = "flex items-center space-x-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-[#888888] hover:text-white transition-all";
+        startupSec.classList.remove("hidden");
+        investorSec.classList.add("hidden");
+      } else {
+        investorBtn.className = "flex items-center space-x-2 px-5 py-2.5 rounded-lg text-xs font-bold transition-all bg-[#FF2D2D] text-white shadow-md shadow-red-950/50";
+        startupBtn.className = "flex items-center space-x-2 px-5 py-2.5 rounded-lg text-xs font-semibold text-[#888888] hover:text-white transition-all";
+        investorSec.classList.remove("hidden");
+        startupSec.classList.add("hidden");
+      }
+
+      renderSectorFilters();
+      renderMarketplace();
+    }
+
+    function renderSectorFilters() {
+      const container = document.getElementById("sector-filters-bar");
+      if (!container) return;
+
+      const sectors = currentViewMode === "startups" 
+        ? ["All", "AgriTech", "FinTech", "CleanTech & EV", "HealthTech"]
+        : ["All", "FinTech", "CleanTech & EV", "AgriTech", "D2C Brands", "Hospitality"];
+
+      container.innerHTML = sectors.map(sec => {
+        const isSelected = selectedSector === sec;
+        return `
+          <button 
+            onclick="handleSectorClick('${sec}')"
+            class="px-3.5 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+              isSelected 
+                ? 'bg-[#FF2D2D] text-white font-bold shadow-sm' 
+                : 'bg-[#141414] text-[#888888] hover:text-white hover:bg-[#1f1f1f] border border-[#262626]'
+            }"
+          >
+            ${sec}
+          </button>
+        `;
+      }).join("");
+    }
+
+    function handleSectorClick(sec) {
+      selectedSector = sec;
+      renderSectorFilters();
+      renderMarketplace();
+    }
+
+    function handleSearch(query) {
+      searchQuery = query.toLowerCase().trim();
+      renderMarketplace();
+    }
+
+    function handleSortChange(val) {
+      sortOption = val;
+      renderMarketplace();
+    }
+
+    function resetFilters() {
+      selectedSector = "All";
+      searchQuery = "";
+      document.getElementById("marketplace-search-input").value = "";
+      renderSectorFilters();
+      renderMarketplace();
+    }
+
+    function renderMarketplace() {
+      const currentUser = EquinestState.getCurrentUser();
+      const allStartups = EquinestState.getStartups();
+      const allInvestors = EquinestState.getInvestors();
+
+      // Update counters
+      document.getElementById("startup-count-badge").textContent = allStartups.length;
+      document.getElementById("investor-count-badge").textContent = allInvestors.length;
+
+      const emptyEl = document.getElementById("empty-state");
+
+      if (currentViewMode === "startups") {
+        let filtered = allStartups.filter(s => {
+          const matchSector = selectedSector === "All" || s.sector.toLowerCase() === selectedSector.toLowerCase();
+          const matchSearch = !searchQuery || 
+            s.name.toLowerCase().includes(searchQuery) || 
+            s.tagline.toLowerCase().includes(searchQuery) ||
+            s.sector.toLowerCase().includes(searchQuery);
+          return matchSector && matchSearch;
+        });
+
+        // Sort
+        if (sortOption === "price_low") filtered.sort((a,b) => a.unitPrice - b.unitPrice);
+        else if (sortOption === "price_high") filtered.sort((a,b) => b.unitPrice - a.unitPrice);
+        else if (sortOption === "remaining_low") filtered.sort((a,b) => a.remainingUnits - b.remainingUnits);
+        else filtered.sort((a,b) => (b.featured ? 1 : 0) - (a.featured ? 1 : 0));
+
+        document.getElementById("displayed-startups-count").textContent = filtered.length;
+
+        const grid = document.getElementById("startups-grid");
+        if (filtered.length === 0) {
+          grid.innerHTML = "";
+          emptyEl.classList.remove("hidden");
+        } else {
+          emptyEl.classList.add("hidden");
+          grid.innerHTML = filtered.map(s => {
+            const fundedPct = Math.min(100, Math.round(((s.totalUnits - s.remainingUnits) / s.totalUnits) * 100));
+            return `
+              <div class="card-dark rounded-xl overflow-hidden border border-[#222222] flex flex-col justify-between group">
+                <!-- Cover Image & Badges -->
+                <div class="relative h-48 overflow-hidden bg-[#161616]">
+                  <img src="${s.coverImage}" alt="${s.name}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                  <div class="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent"></div>
+                  
+                  <div class="absolute top-3 left-3 flex items-center space-x-1.5">
+                    <span class="px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider bg-black/85 text-white backdrop-blur-md border border-[#333333]">
+                      ${s.sector}
+                    </span>
+                    ${s.featured ? '<span class="px-2 py-0.5 rounded text-[10px] font-bold bg-[#FF2D2D] text-white">Featured</span>' : ''}
+                  </div>
+
+                  <div class="absolute bottom-3 left-4 flex items-center space-x-2.5">
+                    <img src="${s.logo}" alt="${s.name} logo" class="w-10 h-10 rounded-lg object-cover border-2 border-black shadow-lg" />
+                    <div>
+                      <h3 class="font-extrabold text-white text-base leading-tight">${s.name}</h3>
+                      <div class="text-[11px] text-[#A0A0A0] flex items-center">
+                        <span>${s.location}</span>
+                        <span class="mx-1">•</span>
+                        <span class="text-emerald-400 font-semibold">✓ Verified</span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Card Body -->
+                <div class="p-5 flex-1 flex flex-col justify-between">
+                  <div>
+                    <p class="text-xs text-[#888888] line-clamp-2 mb-4 leading-relaxed">${s.tagline}</p>
+                    
+                    <!-- Metrics Matrix -->
+                    <div class="grid grid-cols-2 gap-2 p-3 rounded-lg bg-[#161616] border border-[#262626] text-xs mb-4">
+                      <div>
+                        <div class="text-[10px] text-[#777777] uppercase font-semibold">Unit Price</div>
+                        <div class="font-bold text-[#FF2D2D] text-sm font-mono">${EquinestFormat.npr(s.unitPrice)} <span class="text-[10px] text-[#888888]">/ unit</span></div>
+                      </div>
+                      <div>
+                        <div class="text-[10px] text-[#777777] uppercase font-semibold">Remaining Units</div>
+                        <div class="font-bold text-white text-sm font-mono">${s.remainingUnits.toLocaleString()} <span class="text-[10px] text-[#888888]">/ ${s.totalUnits.toLocaleString()}</span></div>
+                      </div>
+                      <div class="pt-2 border-t border-[#222222]">
+                        <div class="text-[10px] text-[#777777]">Equity Offered</div>
+                        <div class="font-semibold text-white font-mono">${s.equityOffered}%</div>
+                      </div>
+                      <div class="pt-2 border-t border-[#222222]">
+                        <div class="text-[10px] text-[#777777]">Valuation</div>
+                        <div class="font-semibold text-white font-mono">${EquinestFormat.shortNPR(s.valuation)}</div>
+                      </div>
+                    </div>
+
+                    <!-- Funding Progress -->
+                    <div class="mb-5">
+                      <div class="flex justify-between text-[11px] text-[#777777] mb-1.5">
+                        <span>Units Claimed: <strong class="text-white">${(s.totalUnits - s.remainingUnits).toLocaleString()}</strong></span>
+                        <span class="font-bold text-[#FF2D2D]">${fundedPct}%</span>
+                      </div>
+                      <div class="w-full h-1.5 bg-[#222222] rounded-full overflow-hidden">
+                        <div class="h-full bg-gradient-to-r from-[#FF2D2D] to-red-400 rounded-full" style="width: ${fundedPct}%"></div>
+                      </div>
+                    </div>
+                  </div>
+
+                  <!-- Actions: 'Invest Now' (Exclusive to Investor) + 'View Details' -->
+                  <div class="grid grid-cols-2 gap-2 pt-2 border-t border-[#1e1e1e]">
+                    <a href="company-detail.html?id=${s.id}" class="py-2.5 text-center text-xs font-semibold rounded-lg btn-secondary">
+                      Company Detail
+                    </a>
+                    
+                    <button 
+                      onclick="handleInvestNowClick('${s.id}')"
+                      class="py-2.5 text-center text-xs font-bold rounded-lg ${
+                        currentUser.canInvest 
+                          ? 'btn-red shadow-md shadow-red-950/40' 
+                          : 'bg-[#1f1515] text-[#FF7777] border border-red-950/80 hover:bg-[#2a1818]'
+                      }"
+                    >
+                      <span>Invest Now</span>
+                      ${!currentUser.canInvest ? '<span class="ml-1 text-[10px] opacity-75">🔒</span>' : ''}
+                    </button>
+                  </div>
+                </div>
+              </div>
+            `;
+          }).join("");
+        }
+      } else {
+        // Investors View
+        let filtered = allInvestors.filter(inv => {
+          const matchSector = selectedSector === "All" || inv.focusSectors.some(sec => sec.toLowerCase().includes(selectedSector.toLowerCase()));
+          const matchSearch = !searchQuery || 
+            inv.name.toLowerCase().includes(searchQuery) ||
+            inv.location.toLowerCase().includes(searchQuery) ||
+            inv.email.toLowerCase().includes(searchQuery);
+          return matchSector && matchSearch;
+        });
+
+        document.getElementById("displayed-investors-count").textContent = filtered.length;
+        const grid = document.getElementById("investors-grid");
+
+        if (filtered.length === 0) {
+          grid.innerHTML = "";
+          emptyEl.classList.remove("hidden");
+        } else {
+          emptyEl.classList.add("hidden");
+          grid.innerHTML = filtered.map(inv => {
+            const isVC = inv.type === "VC Firm";
+            return `
+              <div class="card-dark rounded-xl p-6 border border-[#222222] flex flex-col justify-between group">
+                <div>
+                  <!-- Top Row -->
+                  <div class="flex items-start justify-between mb-4">
+                    <div class="flex items-center space-x-3">
+                      <img src="${inv.avatar}" alt="${inv.name}" class="w-12 h-12 rounded-xl object-cover border border-[#333333]" />
+                      <div>
+                        <h3 class="font-bold text-white text-base">${inv.name}</h3>
+                        <div class="text-xs text-[#888888]">${inv.location}</div>
+                      </div>
+                    </div>
+                    <span class="px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
+                      isVC ? 'bg-purple-950/70 text-purple-300 border border-purple-800/40' : 'bg-red-950/70 text-[#FF5555] border border-red-800/40'
+                    }">
+                      ${inv.type}
+                    </span>
+                  </div>
+
+                  <!-- Firm details if applicable -->
+                  ${isVC ? `
+                    <div class="text-xs font-semibold text-white mb-2 flex items-center space-x-1.5">
+                      <svg class="w-3.5 h-3.5 text-[#FF2D2D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path></svg>
+                      <span class="truncate">${inv.vcName}</span>
+                    </div>
+                  ` : ''}
+
+                  <!-- Bio -->
+                  <p class="text-xs text-[#888888] leading-relaxed mb-4 line-clamp-2">${inv.bio}</p>
+
+                  <!-- Contact Gmail & Details Box -->
+                  <div class="space-y-2 p-3 rounded-lg bg-[#161616] border border-[#252525] text-xs mb-4">
+                    <div class="flex items-center justify-between">
+                      <span class="text-[#777777]">Public Contact:</span>
+                      <a href="mailto:${inv.email}" class="text-[#FF2D2D] hover:underline font-mono text-[11px] truncate max-w-[190px]">
+                        ${inv.email}
+                      </a>
+                    </div>
+                    <div class="flex items-center justify-between pt-1 border-t border-[#202020]">
+                      <span class="text-[#777777]">Ticket Size:</span>
+                      <span class="font-semibold text-white font-mono">${inv.ticketSize}</span>
+                    </div>
+                    <div class="flex items-center justify-between pt-1 border-t border-[#202020]">
+                      <span class="text-[#777777]">Portfolio:</span>
+                      <span class="font-semibold text-emerald-400 font-mono">${inv.portfolioCount} Deals Backed</span>
+                    </div>
+                  </div>
+
+                  <!-- Focus Sector Tags -->
+                  <div class="flex flex-wrap gap-1.5 mb-5">
+                    ${inv.focusSectors.map(sec => `
+                      <span class="px-2 py-0.5 rounded text-[10px] bg-[#1a1a1a] text-[#A0A0A0] border border-[#2c2c2c]">
+                        ${sec}
+                      </span>
+                    `).join("")}
+                  </div>
+                </div>
+
+                <!-- Action Button -->
+                <button 
+                  onclick="openPitchModal('${inv.id}')"
+                  class="w-full py-2.5 text-center text-xs font-bold rounded-lg btn-red flex items-center justify-center space-x-1.5"
+                >
+                  <svg class="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+                  <span>Pitch This Investor</span>
+                </button>
+              </div>
+            `;
+          }).join("");
+        }
+      }
+    }
+
+    // Handle 'Invest Now' click (Requires Auth & Exclusive to Investor)
+    function handleInvestNowClick(startupId) {
+      if (!EquinestState.isAuthenticated()) {
+        EquinestAuth.requireAuth(
+          () => { handleInvestNowClick(startupId); },
+          "Please log in or sign up with an Investor profile to invest in startup equity.",
+          `company-detail.html?id=${startupId}&action=invest`
+        );
+        return;
+      }
+
+      const currentUser = EquinestState.getCurrentUser();
+      if (currentUser.canInvest) {
+        // Direct redirect to detail page with order modal pre-opened
+        window.location.href = `company-detail.html?id=${startupId}&action=invest`;
+      } else {
+        // Show exclusive permission modal
+        const modal = document.getElementById("investor-restricted-modal");
+        document.getElementById("restricted-current-role").textContent = `${currentUser.displayName} (${currentUser.subtitle})`;
+        document.getElementById("restricted-inspect-link").href = `company-detail.html?id=${startupId}`;
+        modal.classList.remove("hidden");
+      }
+    }
+
+    function closeRestrictedModal() {
+      document.getElementById("investor-restricted-modal").classList.add("hidden");
+    }
+
+    // Pitch Modal Logic (Requires Auth)
+    function openPitchModal(invId) {
+      if (!EquinestState.isAuthenticated()) {
+        EquinestAuth.requireAuth(
+          () => { openPitchModal(invId); },
+          "Please log in or sign up to send a direct pitch to this investor."
+        );
+        return;
+      }
+
+      const inv = EquinestState.getInvestors().find(i => i.id === invId);
+      if (!inv) return;
+      const currentUser = EquinestState.getCurrentUser();
+
+      document.getElementById("pitch-target-investor-id").value = inv.id;
+      document.getElementById("pitch-modal-name").textContent = inv.name;
+      document.getElementById("pitch-modal-type").textContent = inv.type + (inv.vcName ? ` • ${inv.vcName}` : "");
+      document.getElementById("pitch-modal-avatar").src = inv.avatar;
+      
+      // Auto-populate logged in contact if available
+      const contactField = document.getElementById("pitch-contact");
+      if (contactField && currentUser && currentUser.email) {
+        contactField.value = `${currentUser.email} (${currentUser.phone || ''})`;
+      }
+
+      document.getElementById("pitch-investor-modal").classList.remove("hidden");
+    }
+
+    function closePitchModal() {
+      document.getElementById("pitch-investor-modal").classList.add("hidden");
+    }
+
+    function submitPitch(e) {
+      e.preventDefault();
+      const invId = document.getElementById("pitch-target-investor-id").value;
+      const startupName = document.getElementById("pitch-startup-name").value;
+      const message = document.getElementById("pitch-message").value;
+      const contact = document.getElementById("pitch-contact").value;
+      const currentUser = EquinestState.getCurrentUser();
+
+      // Dispatch alert to inbox
+      EquinestState.addNotification({
+        type: "system",
+        title: `Pitch Dispatched to Investor 🚀`,
+        body: `Your pitch for '${startupName}' was sent to the investor inbox. Contact provided: ${contact}. Message excerpt: "${message.substring(0, 80)}..."`,
+        targetLink: "marketplace.html?view=investors",
+        sender: {
+          name: currentUser.displayName,
+          role: currentUser.subtitle,
+          avatar: currentUser.avatar
+        }
+      });
+
+      closePitchModal();
+      showToast(`Pitch sent! A notification was placed in your Inbox Portal.`, "success");
+      document.getElementById("pitch-form").reset();
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Local Partner Matchmaking (Page 2) - Equinest</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Design System Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandRed: '#FF2D2D',
+            brandRedDark: '#E02020',
+            darkBg: '#000000',
+            darkCard: '#111111',
+            darkCardHover: '#161616',
+            darkInput: '#1E1E1E',
+            subtleBorder: '#333333'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body data-page="partner" class="bg-black text-white selection:bg-[#FF2D2D] selection:text-white">
+
+  <!-- Sticky Global Navigation Bar -->
+  <div id="equinest-navbar"></div>
+
+  <!-- Header Banner -->
+  <section class="border-b border-[#1f1f1f] bg-[#080808] pt-8 pb-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Breadcrumbs -->
+      <div class="flex items-center space-x-2 text-xs text-[#777777] mb-3">
+        <a href="index.html" class="hover:text-white">Home</a>
+        <span>/</span>
+        <span class="text-[#FF2D2D] font-medium">Local Matchmaker (Page 2)</span>
+      </div>
+
+      <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-6">
+        <div>
+          <h1 class="text-2xl sm:text-4xl font-extrabold text-white flex items-center">
+            <span>Local Partner Matchmaking</span>
+            <span class="ml-3 text-xs font-semibold px-2.5 py-1 rounded bg-[#1e1e1e] text-amber-400 border border-[#333333]">
+              Page 2
+            </span>
+          </h1>
+          <p class="text-sm text-[#A0A0A0] mt-1 max-w-2xl">
+            Pairing profitable local small businesses (cafes, chiya stations, clothing stores, boutique hotels) with working professional silent partners seeking passive profit-sharing dividends.
+          </p>
+        </div>
+
+        <div class="flex items-center space-x-3">
+          <button onclick="handlePostPartnerClick()" class="px-4 py-2.5 rounded-lg btn-red text-xs font-bold flex items-center space-x-2 cursor-pointer">
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"></path></svg>
+            <span>Post Matchmaker Request</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Navigation Tabs: [All], [Need Investment / Operators], [Want to Invest / Silent Partners] -->
+      <div class="mt-8 flex flex-col md:flex-row md:items-center justify-between gap-4 pt-6 border-t border-[#1a1a1a]">
+        
+        <div class="inline-flex p-1.5 rounded-xl bg-[#141414] border border-[#2a2a2a] self-start overflow-x-auto max-w-full">
+          <button 
+            id="tab-all-btn" 
+            onclick="switchPartnerTab('all')" 
+            class="px-4 py-2 rounded-lg text-xs font-bold transition-all bg-[#FF2D2D] text-white shadow-sm"
+          >
+            All Listings
+            <span id="tab-count-all" class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-black/40">0</span>
+          </button>
+
+          <button 
+            id="tab-need-btn" 
+            onclick="switchPartnerTab('need_investment')" 
+            class="px-4 py-2 rounded-lg text-xs font-semibold text-[#888888] hover:text-white transition-all whitespace-nowrap"
+          >
+            🏢 Need Investment / Operators
+            <span id="tab-count-need" class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-[#222222]">0</span>
+          </button>
+
+          <button 
+            id="tab-want-btn" 
+            onclick="switchPartnerTab('want_to_invest')" 
+            class="px-4 py-2 rounded-lg text-xs font-semibold text-[#888888] hover:text-white transition-all whitespace-nowrap"
+          >
+            💰 Want to Invest / Silent Partners
+            <span id="tab-count-want" class="ml-1 text-[10px] px-1.5 py-0.2 rounded-full bg-[#222222]">0</span>
+          </button>
+        </div>
+
+        <!-- Search Bar -->
+        <div class="relative w-full md:w-72">
+          <svg class="w-4 h-4 absolute left-3 top-1/2 -translate-y-1/2 text-[#666666]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+          </svg>
+          <input 
+            type="text" 
+            id="partner-search-input"
+            placeholder="Search cafe, chiya, hotel, location..." 
+            class="w-full pl-9 pr-3 py-2 text-xs input-dark rounded-lg"
+            oninput="handlePartnerSearch(this.value)"
+          />
+        </div>
+
+      </div>
+
+      <!-- Sector Filter Chips -->
+      <div id="partner-sector-chips" class="mt-4 flex items-center space-x-2 overflow-x-auto pb-1 text-xs scrollbar-none">
+        <!-- Rendered by JS -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Partner Listings Grid -->
+  <main class="py-12 bg-black min-h-[600px]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex items-center justify-between mb-6">
+        <div class="text-xs text-[#888888]">
+          Showing <span id="partner-displayed-count" class="font-bold text-white">0</span> matchmaking listings
+        </div>
+        <div class="text-[11px] text-[#777777] flex items-center space-x-2">
+          <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+          <span>Clicking 'Interested' dispatches an instant alert to the partner's Inbox</span>
+        </div>
+      </div>
+
+      <div id="partners-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="partner-empty-state" class="hidden py-16 text-center">
+        <div class="w-16 h-16 rounded-full bg-[#181818] border border-[#2a2a2a] flex items-center justify-center text-[#777777] mx-auto mb-4">
+          <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10"></path>
+          </svg>
+        </div>
+        <h3 class="text-base font-bold text-white">No listings match this filter</h3>
+        <p class="text-xs text-[#888888] mt-1 max-w-sm mx-auto">Try switching between "Need Investment" and "Want to Invest" or clearing your search.</p>
+        <button onclick="resetPartnerFilters()" class="mt-4 px-4 py-2 text-xs font-bold btn-secondary">
+          Reset Filters
+        </button>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- Inquiry Note & Confirmation Modal -->
+  <div id="interested-modal" class="hidden fixed inset-0 z-[100] flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-[#141414] border border-[#333333] rounded-2xl max-w-md w-full p-6 shadow-2xl relative">
+      <button onclick="closeInterestedModal()" class="absolute top-4 right-4 text-[#777777] hover:text-white text-lg">✕</button>
+      
+      <div class="w-12 h-12 rounded-xl bg-red-950/60 border border-red-800/40 text-[#FF2D2D] flex items-center justify-center mb-4">
+        <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path>
+        </svg>
+      </div>
+
+      <h3 class="text-lg font-bold text-white mb-1">Send Matchmaker Interest</h3>
+      <p id="modal-partner-title" class="text-xs text-[#A0A0A0] mb-4">
+        Connecting with: <strong class="text-white">Business Name</strong>
+      </p>
+
+      <form id="interested-form" onsubmit="submitInterestedInquiry(event)" class="space-y-4">
+        <input type="hidden" id="modal-target-partner-id" />
+
+        <div class="p-3 rounded-lg bg-[#1a1a1a] border border-[#2a2a2a] text-xs">
+          <div class="text-[#777777]">Dispatching from active persona:</div>
+          <div id="modal-sender-name" class="font-bold text-white mt-0.5">Aayush Adhikari</div>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-semibold text-[#888888] uppercase mb-1">Your Note or Proposed Terms</label>
+          <textarea 
+            id="modal-inquiry-note" 
+            rows="3" 
+            required
+            class="w-full px-3 py-2 text-xs input-dark"
+            placeholder="I reviewed your metrics and would love to discuss funding terms, profit-share structure, and next steps."
+          ></textarea>
+        </div>
+
+        <div class="flex items-center space-x-2 text-[11px] text-[#777777]">
+          <svg class="w-4 h-4 text-emerald-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path></svg>
+          <span>A direct notification will be instantly sent to their Inbox Portal.</span>
+        </div>
+
+        <button type="submit" class="w-full py-2.5 rounded-lg btn-red text-xs font-bold shadow-md shadow-red-950/40">
+          Confirm & Fire Inbox Notification ⚡
+        </button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Success Confirmation Popup -->
+  <div id="success-popup-modal" class="hidden fixed inset-0 z-[110] flex items-center justify-center p-4 modal-backdrop">
+    <div class="bg-[#141414] border border-emerald-600/50 rounded-2xl max-w-sm w-full p-6 text-center shadow-2xl relative">
+      <div class="w-14 h-14 rounded-full bg-emerald-950/80 border border-emerald-700/60 text-emerald-400 flex items-center justify-center mx-auto mb-4">
+        <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M5 13l4 4L19 7"></path>
+        </svg>
+      </div>
+
+      <h3 class="text-lg font-bold text-white mb-2">Interest Recorded Successfully! 🎉</h3>
+      <p id="success-popup-message" class="text-xs text-[#A0A0A0] leading-relaxed mb-6">
+        An instant matchmaker alert has been dispatched to the listing owner's Inbox Portal.
+      </p>
+
+      <div class="space-y-2">
+        <a href="inbox.html" class="w-full py-2.5 rounded-lg btn-red text-xs font-bold block text-center">
+          Open Inbox Portal to View Thread →
+        </a>
+        <button onclick="closeSuccessPopup()" class="w-full py-2 text-xs font-semibold btn-secondary rounded-lg">
+          Continue Browsing
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    let activeTab = "all"; // 'all', 'need_investment', 'want_to_invest'
+    let selectedSector = "All";
+    let searchQuery = "";
+    const interestedSentSet = new Set();
+
+    document.addEventListener("DOMContentLoaded", () => {
+      renderEquinestNavbar("partner");
+      renderPartnerSectorChips();
+      renderPartnerListings();
+
+      window.addEventListener("equinest:partners_changed", renderPartnerListings);
+      window.addEventListener("equinest:user_changed", renderPartnerListings);
+    });
+
+    function switchPartnerTab(tab) {
+      activeTab = tab;
+      const allBtn = document.getElementById("tab-all-btn");
+      const needBtn = document.getElementById("tab-need-btn");
+      const wantBtn = document.getElementById("tab-want-btn");
+
+      const inactiveClass = "px-4 py-2 rounded-lg text-xs font-semibold text-[#888888] hover:text-white transition-all whitespace-nowrap";
+      const activeClass = "px-4 py-2 rounded-lg text-xs font-bold transition-all bg-[#FF2D2D] text-white shadow-sm whitespace-nowrap";
+
+      allBtn.className = tab === "all" ? activeClass : inactiveClass;
+      needBtn.className = tab === "need_investment" ? activeClass : inactiveClass;
+      wantBtn.className = tab === "want_to_invest" ? activeClass : inactiveClass;
+
+      renderPartnerListings();
+    }
+
+    function renderPartnerSectorChips() {
+      const container = document.getElementById("partner-sector-chips");
+      const sectors = ["All", "Cafe", "Chiya Station", "Hotel", "Clothing & Retail"];
+      container.innerHTML = sectors.map(sec => `
+        <button 
+          onclick="handleSectorFilter('${sec}')"
+          class="px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition-colors ${
+            selectedSector === sec 
+              ? 'bg-[#FF2D2D] text-white font-bold' 
+              : 'bg-[#141414] text-[#888888] hover:text-white hover:bg-[#1f1f1f] border border-[#262626]'
+          }"
+        >
+          ${sec}
+        </button>
+      `).join("");
+    }
+
+    function handleSectorFilter(sec) {
+      selectedSector = sec;
+      renderPartnerSectorChips();
+      renderPartnerListings();
+    }
+
+    function handlePartnerSearch(q) {
+      searchQuery = q.toLowerCase().trim();
+      renderPartnerListings();
+    }
+
+    function resetPartnerFilters() {
+      activeTab = "all";
+      selectedSector = "All";
+      searchQuery = "";
+      document.getElementById("partner-search-input").value = "";
+      switchPartnerTab("all");
+      renderPartnerSectorChips();
+    }
+
+    function renderPartnerListings() {
+      const allPartners = EquinestState.getPartners();
+      
+      // Update tab badge counters
+      document.getElementById("tab-count-all").textContent = allPartners.length;
+      document.getElementById("tab-count-need").textContent = allPartners.filter(p => p.role === "need_investment").length;
+      document.getElementById("tab-count-want").textContent = allPartners.filter(p => p.role === "want_to_invest").length;
+
+      let filtered = allPartners.filter(p => {
+        const matchTab = activeTab === "all" || p.role === activeTab;
+        const matchSector = selectedSector === "All" || p.sector.toLowerCase().includes(selectedSector.toLowerCase());
+        const matchSearch = !searchQuery || 
+          p.title.toLowerCase().includes(searchQuery) ||
+          p.location.toLowerCase().includes(searchQuery) ||
+          p.sector.toLowerCase().includes(searchQuery) ||
+          p.operatorName.toLowerCase().includes(searchQuery);
+        return matchTab && matchSector && matchSearch;
+      });
+
+      document.getElementById("partner-displayed-count").textContent = filtered.length;
+      const grid = document.getElementById("partners-grid");
+      const empty = document.getElementById("partner-empty-state");
+
+      if (filtered.length === 0) {
+        grid.innerHTML = "";
+        empty.classList.remove("hidden");
+      } else {
+        empty.classList.add("hidden");
+        grid.innerHTML = filtered.map(p => {
+          const isNeed = p.role === "need_investment";
+          const alreadyInterested = interestedSentSet.has(p.id);
+
+          return `
+            <div class="card-dark rounded-xl overflow-hidden border border-[#222222] flex flex-col justify-between group">
+              <!-- Cover Image & Sector Header -->
+              <div class="relative h-44 overflow-hidden bg-[#161616]">
+                <img src="${p.coverImage}" alt="${p.title}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+                <div class="absolute inset-0 bg-gradient-to-t from-[#111111] via-transparent to-transparent"></div>
+                
+                <div class="absolute top-3 left-3">
+                  <span class="px-2.5 py-1 rounded text-[10px] font-bold uppercase tracking-wider ${
+                    isNeed ? 'bg-amber-950/80 text-amber-300 border border-amber-800/40' : 'bg-blue-950/80 text-blue-300 border border-blue-800/40'
+                  }">
+                    ${isNeed ? '🏢 Needs Capital / Operator' : '💰 Silent Capital Ready'}
+                  </span>
+                </div>
+
+                <div class="absolute top-3 right-3 px-2 py-0.5 rounded text-[10px] font-semibold bg-black/80 text-white border border-[#333333]">
+                  ${p.sector}
+                </div>
+
+                <div class="absolute bottom-3 left-4 right-4">
+                  <div class="text-[11px] text-[#A0A0A0] flex items-center space-x-1.5">
+                    <svg class="w-3.5 h-3.5 text-[#FF2D2D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path></svg>
+                    <span class="truncate">${p.location}</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Content -->
+              <div class="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center justify-between mb-1">
+                    <span class="text-[10px] font-semibold text-emerald-400">Stage: ${p.stage}</span>
+                    <span class="text-[10px] text-[#777777] font-mono">ID: ${p.id}</span>
+                  </div>
+
+                  <h3 class="font-bold text-white text-base leading-snug mb-2 line-clamp-2">${p.title}</h3>
+                  <p class="text-xs text-[#888888] line-clamp-3 mb-4 leading-relaxed">${p.description}</p>
+
+                  <!-- Funding Ask & Terms Box -->
+                  <div class="p-3 rounded-lg bg-[#161616] border border-[#252525] text-xs space-y-2 mb-4">
+                    <div class="flex items-center justify-between">
+                      <span class="text-[#777777]">${isNeed ? 'Funding Ask:' : 'Liquid Capital Ready:'}</span>
+                      <span class="font-bold text-[#FF2D2D] font-mono text-sm">${EquinestFormat.npr(p.fundingAsk)}</span>
+                    </div>
+                    <div class="flex items-center justify-between pt-1 border-t border-[#202020]">
+                      <span class="text-[#777777]">Return Terms:</span>
+                      <span class="font-semibold text-white text-[11px]">${p.profitShare}</span>
+                    </div>
+                    <div class="flex items-center justify-between pt-1 border-t border-[#202020]">
+                      <span class="text-[#777777]">Posted By:</span>
+                      <span class="font-medium text-[#D0D0D0] text-[11px] truncate max-w-[170px]">${p.operatorName}</span>
+                    </div>
+                  </div>
+
+                  <!-- Key Metrics Grid -->
+                  <div class="grid grid-cols-2 gap-2 text-[10px] text-[#888888] mb-5">
+                    ${Object.entries(p.metrics).slice(0, 2).map(([key, val]) => `
+                      <div class="p-2 rounded bg-[#0f0f0f] border border-[#1f1f1f]">
+                        <div class="capitalize text-[#666666] truncate">${key.replace(/([A-Z])/g, ' $1')}</div>
+                        <div class="font-bold text-white truncate mt-0.5">${val}</div>
+                      </div>
+                    `).join("")}
+                  </div>
+                </div>
+
+                <!-- Interested Action Button -->
+                <button 
+                  onclick="triggerInterestedModal('${p.id}')"
+                  class="w-full py-2.5 rounded-lg text-xs font-bold transition-all flex items-center justify-center space-x-2 ${
+                    alreadyInterested 
+                      ? 'bg-emerald-950/80 text-emerald-300 border border-emerald-700/50' 
+                      : 'btn-red shadow-md shadow-red-950/40'
+                  }"
+                >
+                  ${alreadyInterested ? `
+                    <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"></path></svg>
+                    <span>✓ Inquiry Sent to Inbox</span>
+                  ` : `
+                    <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 10h4.764a2 2 0 011.789 2.894l-3.5 7A2 2 0 0115.263 21h-4.017c-.163 0-.326-.02-.485-.06L7 20m7-10V5a2 2 0 00-2-2h-.095c-.5 0-.905.405-.905.905 0 .714-.211 1.412-.608 2.006L7 11v9m7-10h-2M7 20H5a2 2 0 01-2-2v-6a2 2 0 012-2h2.5"></path></svg>
+                    <span>Interested (Connect)</span>
+                  `}
+                </button>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+    }
+
+    function handlePostPartnerClick() {
+      EquinestAuth.requireAuth(
+        () => { window.location.href = "create-profile.html?type=partner"; },
+        "Please log in or sign up to post a local partner matchmaking request.",
+        "create-profile.html?type=partner"
+      );
+    }
+
+    function triggerInterestedModal(partnerId) {
+      if (!EquinestState.isAuthenticated()) {
+        EquinestAuth.requireAuth(
+          () => { triggerInterestedModal(partnerId); },
+          "Please log in or create an account to connect with local business operators."
+        );
+        return;
+      }
+
+      const partner = EquinestState.getPartnerById(partnerId);
+      if (!partner) return;
+
+      const currentUser = EquinestState.getCurrentUser();
+      document.getElementById("modal-target-partner-id").value = partner.id;
+      document.getElementById("modal-partner-title").innerHTML = `Connecting with: <strong class="text-white">${partner.title}</strong> (${partner.operatorName})`;
+      document.getElementById("modal-sender-name").innerHTML = `
+        <span class="text-white font-bold">${currentUser.displayName}</span>
+        <span class="text-[10px] text-[#A0A0A0] block font-mono">Contact: ${currentUser.email} ${currentUser.phone ? '• ' + currentUser.phone : ''}</span>
+      `;
+      document.getElementById("modal-inquiry-note").value = `Hi ${partner.operatorName}, I am interested in your ${partner.sector} listing (${partner.profitShare}). Let's discuss partnership terms and due-diligence.`;
+      
+      document.getElementById("interested-modal").classList.remove("hidden");
+    }
+
+    function closeInterestedModal() {
+      document.getElementById("interested-modal").classList.add("hidden");
+    }
+
+    function submitInterestedInquiry(e) {
+      e.preventDefault();
+      const partnerId = document.getElementById("modal-target-partner-id").value;
+      const note = document.getElementById("modal-inquiry-note").value;
+      const partner = EquinestState.getPartnerById(partnerId);
+
+      // Fire state transaction -> adds notification to inbox in localStorage
+      EquinestState.sendPartnerInquiry(partnerId, note);
+      interestedSentSet.add(partnerId);
+
+      closeInterestedModal();
+
+      // Show success modal
+      document.getElementById("success-popup-message").innerHTML = `
+        Your interest in <strong class="text-white">${partner ? partner.title : 'this business'}</strong> was registered!
+        An instant alert with your contact details was delivered to their Inbox Portal.
+      `;
+      document.getElementById("success-popup-modal").classList.remove("hidden");
+
+      renderPartnerListings();
+    }
+
+    function closeSuccessPopup() {
+      document.getElementById("success-popup-modal").classList.add("hidden");
+    }
+  </script>
+</body>
+</html>
