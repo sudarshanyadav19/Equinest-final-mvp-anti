@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Equinest - Startup Equity & Local Business Silent-Partner Marketplace</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Custom Design System Styles -->
+  <link rel="stylesheet" href="css/styles.css">
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            brandRed: '#FF2D2D',
+            brandRedDark: '#E02020',
+            darkBg: '#000000',
+            darkCard: '#111111',
+            darkCardHover: '#161616',
+            darkInput: '#1E1E1E',
+            subtleBorder: '#333333'
+          }
+        }
+      }
+    }
+  </script>
+</head>
+<body data-page="home" class="bg-black text-white selection:bg-[#FF2D2D] selection:text-white">
+
+  <!-- Sticky Global Navigation Bar -->
+  <div id="equinest-navbar"></div>
+
+  <!-- Hero Section -->
+  <section class="relative pt-16 pb-24 lg:pt-28 lg:pb-32 overflow-hidden bg-grid-pattern">
+    <!-- Red ambient background glow -->
+    <div class="absolute top-1/4 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[350px] bg-[#FF2D2D]/15 blur-[120px] rounded-full pointer-events-none"></div>
+
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 text-center">
+      
+      <!-- Top Pill Tag -->
+      <div class="inline-flex items-center space-x-2 px-3.5 py-1.5 rounded-full bg-[#181818] border border-[#333333] text-xs font-medium text-[#D0D0D0] mb-8 shadow-inner hover:border-[#FF2D2D]/50 transition-colors">
+        <span class="flex h-2 w-2 relative">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#FF2D2D] opacity-75"></span>
+          <span class="relative inline-flex rounded-full h-2 w-2 bg-[#FF2D2D]"></span>
+        </span>
+        <span class="text-white font-semibold">🇳🇵 Nepal's 1st Dual-Engine Venture Platform</span>
+        <span class="text-[#777777]">|</span>
+        <span class="text-[#A0A0A0]">Startup Equity & Silent Partners</span>
+      </div>
+
+      <!-- Main Headline with Red Highlight -->
+      <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight text-white max-w-5xl mx-auto leading-[1.12]">
+        Back Nepal’s Next Giants. <br class="hidden sm:inline" />
+        <span class="text-[#FF2D2D] drop-shadow-[0_0_35px_rgba(255,45,45,0.4)]">Invest Smarter with Equinest</span>.
+      </h1>
+
+      <!-- Subheadline -->
+      <p class="mt-6 text-base sm:text-xl text-[#A0A0A0] max-w-3xl mx-auto leading-relaxed">
+        Whether you are acquiring micro-equity shares in disruptive tech startups or funding local cafes and chiya stations as a passive silent partner—Equinest bridges verified founders with domestic and diaspora capital.
+      </p>
+
+      <!-- Prominent Call to Action Buttons -->
+      <div class="mt-10 flex flex-col sm:flex-row items-center justify-center gap-4 max-w-md mx-auto">
+        <button onclick="handleGetStartedClick(event)" class="w-full sm:w-auto px-8 py-3.5 text-base font-bold text-white btn-red inline-flex items-center justify-center space-x-2 shadow-lg shadow-red-950/60 cursor-pointer">
+          <span>Get Started</span>
+          <svg class="w-4 h-4 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
+          </svg>
+        </button>
+        <a href="partner.html" class="w-full sm:w-auto px-7 py-3.5 text-base font-semibold text-[#D0D0D0] btn-secondary inline-flex items-center justify-center space-x-2">
+          <span>Find Silent Partner</span>
+          <span class="text-xs px-2 py-0.5 rounded bg-[#242424] text-[#FF5555] font-mono">Page 2</span>
+        </a>
+      </div>
+
+      <!-- Quick Trust Counters -->
+      <div class="mt-16 pt-12 border-t border-[#1c1c1c] grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto text-left">
+        <div class="p-3 rounded-lg bg-[#0e0e0e] border border-[#1f1f1f]">
+          <div class="text-2xl sm:text-3xl font-extrabold text-white">रू 4.85 Cr+</div>
+          <div class="text-xs text-[#888888] mt-1 font-medium">NPR Capital Deployed</div>
+        </div>
+        <div class="p-3 rounded-lg bg-[#0e0e0e] border border-[#1f1f1f]">
+          <div class="text-2xl sm:text-3xl font-extrabold text-[#FF2D2D]">142+</div>
+          <div class="text-xs text-[#888888] mt-1 font-medium">Active Silent Partners</div>
+        </div>
+        <div class="p-3 rounded-lg bg-[#0e0e0e] border border-[#1f1f1f]">
+          <div class="text-2xl sm:text-3xl font-extrabold text-white">28</div>
+          <div class="text-xs text-[#888888] mt-1 font-medium">Vetted Nepali Startups</div>
+        </div>
+        <div class="p-3 rounded-lg bg-[#0e0e0e] border border-[#1f1f1f]">
+          <div class="text-2xl sm:text-3xl font-extrabold text-emerald-400">100%</div>
+          <div class="text-xs text-[#888888] mt-1 font-medium">Escrow & PAN Verified</div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- "What is Equinest?" Feature Grid -->
+  <section class="py-20 bg-[#080808] border-t border-b border-[#1a1a1a]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-widest text-[#FF2D2D]">Core Architecture</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white mt-2">What is Equinest?</h2>
+        <p class="text-sm sm:text-base text-[#A0A0A0] mt-3">
+          A modern dual-sided marketplace tailored for Nepal’s emerging economic landscape. We solve the capital crunch for high-growth tech founders and local commercial operators.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        
+        <!-- Feature 1: Growth Focused -->
+        <div class="card-dark rounded-2xl p-8 relative group overflow-hidden border border-[#222222] hover:border-[#FF2D2D]/60">
+          <div class="w-14 h-14 rounded-xl bg-red-950/40 border border-red-900/50 flex items-center justify-center text-[#FF2D2D] mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+            </svg>
+          </div>
+          <div class="text-xs font-mono text-[#FF2D2D] uppercase tracking-wider mb-1">01. Equity Micro-Units</div>
+          <h3 class="text-xl font-bold text-white mb-3">Growth Focused</h3>
+          <p class="text-sm text-[#A0A0A0] leading-relaxed">
+            Break through prohibitive high angel minimums. High-potential ventures offer standardized micro-units (from NPR 1,000 to NPR 3,000 per unit), allowing retail and angel syndicates to diversify across Nepal's best builders.
+          </p>
+          <div class="mt-6 flex items-center text-xs font-semibold text-[#FF2D2D] group-hover:translate-x-1 transition-transform">
+            <span>Explore live startup offerings</span>
+            <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </div>
+        </div>
+
+        <!-- Feature 2: Secure Platform -->
+        <div class="card-dark rounded-2xl p-8 relative group overflow-hidden border border-[#222222] hover:border-[#FF2D2D]/60">
+          <div class="w-14 h-14 rounded-xl bg-red-950/40 border border-red-900/50 flex items-center justify-center text-[#FF2D2D] mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            </svg>
+          </div>
+          <div class="text-xs font-mono text-[#FF2D2D] uppercase tracking-wider mb-1">02. Verified & Confidential</div>
+          <h3 class="text-xl font-bold text-white mb-3">Secure Platform</h3>
+          <p class="text-sm text-[#A0A0A0] leading-relaxed">
+            Every founder, operator, and investor undergoes strict internal PAN & Citizenship validation. Sensitive legal IDs are strictly shielded from public view while guaranteeing genuine deal integrity.
+          </p>
+          <div class="mt-6 flex items-center text-xs font-semibold text-[#FF2D2D] group-hover:translate-x-1 transition-transform">
+            <span>View compliance standards</span>
+            <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </div>
+        </div>
+
+        <!-- Feature 3: Global Vision -->
+        <div class="card-dark rounded-2xl p-8 relative group overflow-hidden border border-[#222222] hover:border-[#FF2D2D]/60">
+          <div class="w-14 h-14 rounded-xl bg-red-950/40 border border-red-900/50 flex items-center justify-center text-[#FF2D2D] mb-6 group-hover:scale-110 transition-transform">
+            <svg class="w-7 h-7" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            </svg>
+          </div>
+          <div class="text-xs font-mono text-[#FF2D2D] uppercase tracking-wider mb-1">03. Dual-Engine Marketplace</div>
+          <h3 class="text-xl font-bold text-white mb-3">Global Vision</h3>
+          <p class="text-sm text-[#A0A0A0] leading-relaxed">
+            Connecting busy working professionals (doctors, engineers, IT experts) and the Non-Resident Nepali (NRN) community directly with profit-generating local tea lounges, boutique resorts, and modern cloud kitchens.
+          </p>
+          <div class="mt-6 flex items-center text-xs font-semibold text-[#FF2D2D] group-hover:translate-x-1 transition-transform">
+            <span>Find silent partner matches</span>
+            <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Dual-Vertical Showcase Section -->
+  <section class="py-20 bg-black">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex flex-col md:flex-row md:items-end justify-between mb-12">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-widest text-[#FF2D2D]">Two Distinct Paths</span>
+          <h2 class="text-3xl font-extrabold text-white mt-1">Dual Investment Verticals</h2>
+          <p class="text-sm text-[#A0A0A0] mt-2 max-w-xl">
+            Choose the asset class matching your risk appetite and liquidity horizon.
+          </p>
+        </div>
+        <div class="mt-4 md:mt-0 flex space-x-3">
+          <a href="marketplace.html" class="px-4 py-2 text-xs font-bold rounded-lg bg-[#1a1a1a] hover:bg-[#252525] text-white border border-[#333333]">
+            Browse Startups →
+          </a>
+          <a href="partner.html" class="px-4 py-2 text-xs font-bold rounded-lg btn-red">
+            Browse Silent Partners →
+          </a>
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+        
+        <!-- Vertical A: Startup Micro-Equity -->
+        <div class="p-8 rounded-2xl bg-gradient-to-br from-[#141414] to-[#0c0c0c] border border-[#2a2a2a] relative overflow-hidden group">
+          <div class="flex items-center justify-between mb-6">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-red-950/60 text-[#FF5555] border border-red-800/40">
+              Vertical 01 • High Growth Equity
+            </span>
+            <span class="text-xs text-[#888888]">Page 1</span>
+          </div>
+
+          <h3 class="text-2xl font-bold text-white mb-3">Startup Equity Rounds</h3>
+          <p class="text-sm text-[#A0A0A0] mb-6">
+            Invest in vetted tech, agritech, EV, and fintech startups offering legal equity shares via standardized unit blocks. Complete with live interactive unit calculations and transparent 3-year financials.
+          </p>
+
+          <div class="space-y-3 mb-8">
+            <div class="flex items-center space-x-3 text-xs text-[#D0D0D0]">
+              <span class="w-5 h-5 rounded-full bg-red-950/80 text-[#FF2D2D] flex items-center justify-center font-bold">✓</span>
+              <span>Entry price from as low as NPR 1,000 / unit</span>
+            </div>
+            <div class="flex items-center space-x-3 text-xs text-[#D0D0D0]">
+              <span class="w-5 h-5 rounded-full bg-red-950/80 text-[#FF2D2D] flex items-center justify-center font-bold">✓</span>
+              <span>Audited multi-year revenue and cap-table visibility</span>
+            </div>
+            <div class="flex items-center space-x-3 text-xs text-[#D0D0D0]">
+              <span class="w-5 h-5 rounded-full bg-red-950/80 text-[#FF2D2D] flex items-center justify-center font-bold">✓</span>
+              <span>Physical share certificate delivery for Angel/VC members</span>
+            </div>
+          </div>
+
+          <a href="marketplace.html" class="inline-flex items-center space-x-2 text-xs font-bold text-white btn-red px-5 py-2.5">
+            <span>Explore Startup Marketplace</span>
+            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </a>
+        </div>
+
+        <!-- Vertical B: Local Silent Partner -->
+        <div class="p-8 rounded-2xl bg-gradient-to-br from-[#141414] to-[#0c0c0c] border border-[#2a2a2a] relative overflow-hidden group">
+          <div class="flex items-center justify-between mb-6">
+            <span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-950/60 text-amber-400 border border-amber-800/40">
+              Vertical 02 • Immediate Cashflow
+            </span>
+            <span class="text-xs text-[#888888]">Page 2</span>
+          </div>
+
+          <h3 class="text-2xl font-bold text-white mb-3">Local Business Silent Partner</h3>
+          <p class="text-sm text-[#A0A0A0] mb-6">
+            Partner with proven local cafes, chiya stations, retail storefronts, and boutique hotels in Kathmandu and Pokhara. Operators manage 100% of daily hassles while silent partners receive monthly net profit remittances.
+          </p>
+
+          <div class="space-y-3 mb-8">
+            <div class="flex items-center space-x-3 text-xs text-[#D0D0D0]">
+              <span class="w-5 h-5 rounded-full bg-amber-950/80 text-amber-400 flex items-center justify-center font-bold">✓</span>
+              <span>Monthly or quarterly cash profit distribution (15% - 30% ROI)</span>
+            </div>
+            <div class="flex items-center space-x-3 text-xs text-[#D0D0D0]">
+              <span class="w-5 h-5 rounded-full bg-amber-950/80 text-amber-400 flex items-center justify-center font-bold">✓</span>
+              <span>Instant 'Interested' notification alerts with 1-click connect</span>
+            </div>
+            <div class="flex items-center space-x-3 text-xs text-[#D0D0D0]">
+              <span class="w-5 h-5 rounded-full bg-amber-950/80 text-amber-400 flex items-center justify-center font-bold">✓</span>
+              <span>Standardized Nepali & English silent partner legal agreement templates</span>
+            </div>
+          </div>
+
+          <a href="partner.html" class="inline-flex items-center space-x-2 text-xs font-bold text-white bg-[#1a1a1a] hover:bg-[#252525] border border-[#444444] px-5 py-2.5 rounded-lg transition-colors">
+            <span>Find Silent Partner Matches</span>
+            <svg class="w-4 h-4 text-[#FF2D2D]" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+          </a>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Live Featured Offerings Section (Loaded dynamically from state) -->
+  <section class="py-20 bg-[#0a0a0a] border-t border-[#1a1a1a]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="flex items-center justify-between mb-10">
+        <div>
+          <span class="text-xs font-bold uppercase tracking-wider text-[#FF2D2D]">Active Capital Rounds</span>
+          <h2 class="text-2xl sm:text-3xl font-extrabold text-white">Featured Live Opportunities</h2>
+        </div>
+        <a href="marketplace.html" class="text-xs font-semibold text-[#FF2D2D] hover:underline flex items-center">
+          <span>View All in Marketplace</span>
+          <svg class="w-3.5 h-3.5 ml-1" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path></svg>
+        </a>
+      </div>
+
+      <!-- Startup Cards Grid -->
+      <div id="home-featured-startups" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <!-- Rendered by JavaScript -->
+      </div>
+
+    </div>
+  </section>
+
+  <!-- How It Works Section -->
+  <section class="py-20 bg-black border-t border-[#1c1c1c]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <div class="text-center max-w-2xl mx-auto mb-16">
+        <span class="text-xs font-bold uppercase tracking-wider text-[#FF2D2D]">Simple & Compliant</span>
+        <h2 class="text-3xl font-extrabold text-white mt-1">How Equinest Operates</h2>
+        <p class="text-sm text-[#A0A0A0] mt-2">Three frictionless steps to close verified private venture deals in Nepal.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+        
+        <div class="p-6 rounded-2xl bg-[#111111] border border-[#222222]">
+          <div class="w-12 h-12 rounded-full bg-[#1e1e1e] border border-[#333333] text-[#FF2D2D] font-mono font-bold text-lg flex items-center justify-center mx-auto mb-4">
+            1
+          </div>
+          <h4 class="text-base font-bold text-white mb-2">Vetted Profile Listing</h4>
+          <p class="text-xs text-[#888888] leading-relaxed">
+            Founders & local business operators submit audited records, business metrics, and confidential PAN/Citizenship credentials for platform approval.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-[#111111] border border-[#222222]">
+          <div class="w-12 h-12 rounded-full bg-[#1e1e1e] border border-[#333333] text-[#FF2D2D] font-mono font-bold text-lg flex items-center justify-center mx-auto mb-4">
+            2
+          </div>
+          <h4 class="text-base font-bold text-white mb-2">Interactive Unit Calculator</h4>
+          <p class="text-xs text-[#888888] leading-relaxed">
+            Investors evaluate 3-year performance and adjust unit sliders to live-calculate NPR totals, exact equity stakes, and projected dividends before committing.
+          </p>
+        </div>
+
+        <div class="p-6 rounded-2xl bg-[#111111] border border-[#222222]">
+          <div class="w-12 h-12 rounded-full bg-[#1e1e1e] border border-[#333333] text-[#FF2D2D] font-mono font-bold text-lg flex items-center justify-center mx-auto mb-4">
+            3
+          </div>
+          <h4 class="text-base font-bold text-white mb-2">Instant Alerts & Settlement</h4>
+          <p class="text-xs text-[#888888] leading-relaxed">
+            Orders simulate automated escrow placement and dispatch instant notifications to both founder and investor inboxes with legally compliant contracts.
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CTA Banner -->
+  <section class="py-16 bg-gradient-to-b from-[#140808] to-black border-t border-[#2a1111]">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
+      <h2 class="text-3xl sm:text-4xl font-extrabold text-white">
+        Ready to scale your business or back Nepal's next unicorns?
+      </h2>
+      <p class="text-sm sm:text-base text-[#A0A0A0] mt-4 max-w-xl mx-auto">
+        Join hundreds of verified founders, angel syndicates, and silent partners building the Himalayan commercial future today.
+      </p>
+      <div class="mt-8 flex flex-col sm:flex-row items-center justify-center gap-4">
+        <button onclick="handleCreateProfileClick()" class="w-full sm:w-auto px-8 py-3.5 btn-red text-sm font-bold shadow-lg cursor-pointer">
+          Create Your Profile Now
+        </button>
+        <a href="marketplace.html" class="w-full sm:w-auto px-8 py-3.5 btn-secondary text-sm font-semibold">
+          Explore All Deals (Page 1)
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="border-t border-[#1a1a1a] bg-black py-12 text-xs text-[#777777]">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-col md:flex-row items-center justify-between gap-6 pb-8 border-b border-[#181818]">
+        <div class="flex items-center space-x-2">
+          <div class="w-7 h-7 rounded-lg bg-[#FF2D2D] flex items-center justify-center font-bold text-white text-sm">E</div>
+          <span class="text-base font-bold text-white">Equinest</span>
+          <span class="text-[11px] text-[#555555]">| Kathmandu & Pokhara, Nepal</span>
+        </div>
+        <div class="flex items-center space-x-6 text-[#A0A0A0]">
+          <a href="marketplace.html" class="hover:text-white transition-colors">Marketplace (Page 1)</a>
+          <a href="partner.html" class="hover:text-white transition-colors">Find Partner (Page 2)</a>
+          <a href="pricing.html" class="hover:text-white transition-colors">Pricing & Plans</a>
+          <a href="inbox.html" class="hover:text-white transition-colors">Inbox Portal</a>
+          <button onclick="handleCreateProfileClick()" class="text-[#FF2D2D] hover:underline font-medium">Create Listing</button>
+        </div>
+      </div>
+      <div class="pt-6 flex flex-col sm:flex-row items-center justify-between gap-4 text-[11px]">
+        <div>© 2026 Equinest Platform Pvt. Ltd. All rights reserved. Registered under Office of Company Registrar, Nepal.</div>
+        <div class="flex space-x-4 text-[#555555]">
+          <span>Currency: NPR (नेपाली रुपैयाँ / रू)</span>
+          <span>•</span>
+          <span>Escrow Compliance Simulation</span>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  <script src="js/data.js"></script>
+  <script src="js/state.js"></script>
+  <script src="js/navbar.js"></script>
+  <script>
+    function handleGetStartedClick(e) {
+      if (e) e.preventDefault();
+      EquinestAuth.requireAuth(
+        () => { window.location.href = "marketplace.html"; },
+        "Welcome to Equinest! Please log in or sign up to access the venture marketplace.",
+        "marketplace.html"
+      );
+    }
+
+    function handleCreateProfileClick() {
+      EquinestAuth.requireAuth(
+        () => { window.location.href = "create-profile.html"; },
+        "Please log in or create an account to publish your startup or investor profile.",
+        "create-profile.html"
+      );
+    }
+
+    document.addEventListener("DOMContentLoaded", () => {
+      // Render sticky navbar
+      renderEquinestNavbar("home");
+
+      // Render featured startups on homepage
+      const startups = EquinestState.getStartups().slice(0, 3);
+      const container = document.getElementById("home-featured-startups");
+      if (container) {
+        container.innerHTML = startups.map(s => {
+          const fundedPct = Math.min(100, Math.round(((s.totalUnits - s.remainingUnits) / s.totalUnits) * 100));
+          return `
+            <div class="card-dark rounded-xl overflow-hidden border border-[#222222] flex flex-col">
+              <div class="relative h-44 overflow-hidden bg-[#1a1a1a]">
+                <img src="${s.coverImage}" alt="${s.name}" class="w-full h-full object-cover transition-transform duration-500 hover:scale-105" />
+                <div class="absolute top-3 left-3 px-2.5 py-1 rounded-md text-[10px] font-bold uppercase tracking-wider bg-black/80 text-white backdrop-blur-md border border-[#333333]">
+                  ${s.sector}
+                </div>
+                <div class="absolute top-3 right-3 px-2 py-1 rounded text-[10px] font-semibold bg-emerald-950/80 text-emerald-400 border border-emerald-800/40">
+                  ${s.stage}
+                </div>
+              </div>
+              <div class="p-5 flex-1 flex flex-col justify-between">
+                <div>
+                  <div class="flex items-center space-x-2 mb-2">
+                    <img src="${s.logo}" alt="${s.name} logo" class="w-6 h-6 rounded object-cover border border-[#333333]" />
+                    <h3 class="font-bold text-white text-base truncate">${s.name}</h3>
+                  </div>
+                  <p class="text-xs text-[#888888] line-clamp-2 mb-4">${s.tagline}</p>
+                  
+                  <div class="grid grid-cols-2 gap-2 p-2.5 rounded-lg bg-[#161616] border border-[#252525] text-xs mb-4">
+                    <div>
+                      <div class="text-[10px] text-[#666666]">Unit Price</div>
+                      <div class="font-bold text-[#FF2D2D] font-mono">${EquinestFormat.npr(s.unitPrice)}</div>
+                    </div>
+                    <div>
+                      <div class="text-[10px] text-[#666666]">Remaining</div>
+                      <div class="font-bold text-white font-mono">${s.remainingUnits.toLocaleString()} units</div>
+                    </div>
+                  </div>
+
+                  <!-- Progress -->
+                  <div class="mb-4">
+                    <div class="flex justify-between text-[11px] text-[#777777] mb-1">
+                      <span>Funded Progress</span>
+                      <span class="font-bold text-white">${fundedPct}%</span>
+                    </div>
+                    <div class="w-full h-1.5 bg-[#222222] rounded-full overflow-hidden">
+                      <div class="h-full bg-[#FF2D2D] rounded-full" style="width: ${fundedPct}%"></div>
+                    </div>
+                  </div>
+                </div>
+
+                <a href="company-detail.html?id=${s.id}" class="w-full text-center py-2 text-xs font-bold rounded-lg btn-red">
+                  View Detail & Calculate Units →
+                </a>
+              </div>
+            </div>
+          `;
+        }).join("");
+      }
+    });
+  </script>
+</body>
+</html>
